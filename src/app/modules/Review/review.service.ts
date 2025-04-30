@@ -89,12 +89,35 @@ const getSingleReview = async (id: string) => {
     ...review,
     paymentCount,
     totalComments,
-    totalVotes
+    totalVotes,
   };
+};
+
+const myselfAllReviews = async (userId: string) => {
+  //  console.log('myselfAllReviews...',userId);
+
+  const result = await prisma.review.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profileUrl: true,
+        },
+      },
+      category: true,
+    },
+  });
+  return result
 };
 
 export const ReviewService = {
   addReview,
   getAllReview,
   getSingleReview,
+  myselfAllReviews,
 };

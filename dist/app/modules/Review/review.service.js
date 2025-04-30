@@ -90,8 +90,29 @@ const getSingleReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
         totalComments,
         totalVotes });
 });
+const myselfAllReviews = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    //  console.log('myselfAllReviews...',userId);
+    const result = yield prisma_1.default.review.findMany({
+        where: {
+            userId,
+        },
+        include: {
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    profileUrl: true,
+                },
+            },
+            category: true,
+        },
+    });
+    return result;
+});
 exports.ReviewService = {
     addReview,
     getAllReview,
     getSingleReview,
+    myselfAllReviews,
 };

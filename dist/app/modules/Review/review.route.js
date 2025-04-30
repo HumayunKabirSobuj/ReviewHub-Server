@@ -10,6 +10,8 @@ const RoleValidation_1 = __importDefault(require("../../middlewares/RoleValidati
 const review_controller_1 = require("./review.controller");
 const router = express_1.default.Router();
 router.get("/", review_controller_1.reviewController.getAllReview);
+router.get("/my-reviews", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN, client_1.UserRole.USER), review_controller_1.reviewController.myselfAllReviews);
 router.get("/:id", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN, client_1.UserRole.USER), review_controller_1.reviewController.getSingleReview);
+router.get("/my-reviews", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN, client_1.UserRole.USER), review_controller_1.reviewController.myselfAllReviews);
 router.post("/create-review", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN, client_1.UserRole.USER), review_controller_1.reviewController.addReview);
 exports.ReviewRoutes = router;
