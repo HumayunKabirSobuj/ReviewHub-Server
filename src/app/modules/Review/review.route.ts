@@ -7,7 +7,6 @@ const router = express.Router();
 
 router.get(
   "/",
-  RoleValidation(UserRole.ADMIN, UserRole.USER),
   reviewController.getAllReview
 );
 router.get(
