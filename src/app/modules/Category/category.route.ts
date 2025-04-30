@@ -6,6 +6,7 @@ import RoleValidation from "../../middlewares/RoleValidation";
 const router = express.Router();
 
 router.get("/", CategoryController.getAllCategory);
+router.get("/:id", CategoryController.getSingleCategory);
 
 router.post(
   "/create-category",
