@@ -1,0 +1,39 @@
+import { Review } from "@prisma/client";
+import prisma from "../../../shared/prisma";
+import AppError from "../../Errors/AppError";
+import status from "http-status";
+
+const addReview = async (data: Review, userId: string) => {
+  //   console.log("data", data);
+  //   console.log("data", authorId);
+
+  const isCategoryExist = await prisma.category.findUnique({
+    where: {
+      id: data.categoryId,
+    },
+  });
+
+  //   console.log(isCategoryExist);
+
+  if (!isCategoryExist) {
+    throw new AppError(status.NOT_FOUND, "Category Not found!");
+  }
+  //   console.log(isCategoryExist);
+
+  const reviewData = {
+    ...data,
+    userId,
+  };
+  //   console.log(reviewData);
+
+  const result = await prisma.review.create({
+    data: {
+      ...reviewData,
+    },
+  });
+  return result;
+};
+
+export const ReviewService = {
+  addReview,
+};

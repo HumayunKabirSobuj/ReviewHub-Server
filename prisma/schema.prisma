@@ -36,12 +36,11 @@ model Review {
   description    String
   rating         Int
   purchaseSource String?
-  imageUrl       String
+  imageUrls        String[]   // optional image array
   excerp         String
   isPremium      Boolean   @default(false)
   price          Float? // only for premium reviews
   isPublished    Boolean   @default(false)
-  moderationNote String? // reason for unpublish
   author         User      @relation(fields: [userId], references: [id])
   userId         String
   category       Category  @relation(fields: [categoryId], references: [id])

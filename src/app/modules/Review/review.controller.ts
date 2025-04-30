@@ -1,0 +1,21 @@
+import status from "http-status";
+import catchAsync from "../../../shared/catchAsync";
+import sendResponse from "../../../shared/sendResponse";
+import { ReviewService } from "./review.service";
+import { Request } from "express";
+
+const addReview = catchAsync(async (req: Request & { user?: any }, res) => {
+  const result = await ReviewService.addReview(req.body,req.user.id);
+
+//   console.log(req.user);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Review Added Successfuly.",
+    data: result,
+  });
+});
+
+export const reviewController = {
+  addReview,
+};
