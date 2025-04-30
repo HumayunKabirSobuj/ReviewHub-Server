@@ -44,12 +44,23 @@ const getSingleReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "All Review Fetched Successfuly.",
+        message: "Single Review Fetched Successfuly.",
+        data: result,
+    });
+}));
+const myselfAllReviews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield review_service_1.ReviewService.myselfAllReviews(req.user.id);
+    //   console.log(req.user);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Myself All Review Fetched Successfuly.",
         data: result,
     });
 }));
 exports.reviewController = {
     addReview,
     getAllReview,
-    getSingleReview
+    getSingleReview,
+    myselfAllReviews,
 };

@@ -119,4 +119,9 @@ https://reviewhub-backend-one.vercel.app
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/72823e1a-d349-4b96-88a8-753fb5c4dd9a`**
 
+### 9\. **Myself all reviews**
+#### Authorization Token Need 
+
+#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/my-reviews`**
+
 

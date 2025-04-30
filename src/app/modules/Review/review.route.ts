@@ -9,10 +9,23 @@ router.get(
   "/",
   reviewController.getAllReview
 );
+
+router.get(
+  "/my-reviews",
+  RoleValidation(UserRole.ADMIN, UserRole.USER),
+  reviewController.myselfAllReviews
+);
 router.get(
   "/:id",
   RoleValidation(UserRole.ADMIN, UserRole.USER),
   reviewController.getSingleReview
+);
+
+
+router.get(
+  "/my-reviews",
+  RoleValidation(UserRole.ADMIN, UserRole.USER),
+  reviewController.myselfAllReviews
 );
 
 router.post(

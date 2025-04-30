@@ -34,13 +34,28 @@ const getSingleReview = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
-    message: "All Review Fetched Successfuly.",
+    message: "Single Review Fetched Successfuly.",
     data: result,
   });
 });
 
+const myselfAllReviews = catchAsync(
+  async (req: Request & { user?: any }, res) => {
+    const result = await ReviewService.myselfAllReviews(req.user.id);
+
+    //   console.log(req.user);
+    sendResponse(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "Myself All Review Fetched Successfuly.",
+      data: result,
+    });
+  }
+);
+
 export const reviewController = {
   addReview,
   getAllReview,
-  getSingleReview
+  getSingleReview,
+  myselfAllReviews,
 };
