@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,3 +8,93 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  email      String    @unique
+  password   String
+  profileUrl String?
+  role       UserRole  @default(USER)
+  reviews    Review[]
+  comments   Comment[]
+  votes      Vote[]
+  payments   Payment[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Category {
+  id      String   @id @default(uuid())
+  name    String   @unique
+  reviews Review[]
+}
+
+model Review {
+  id             String    @id @default(uuid())
+  title          String
+  description    String
+  rating         Int
+  purchaseSource String?
+  imageUrl       String
+  excerp         String
+  isPremium      Boolean   @default(false)
+  price          Float? // only for premium reviews
+  isPublished    Boolean   @default(false)
+  moderationNote String? // reason for unpublish
+  author         User      @relation(fields: [userId], references: [id])
+  userId         String
+  category       Category  @relation(fields: [categoryId], references: [id])
+  categoryId     String
+  comments       Comment[]
+  votes          Vote[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  Payment        Payment[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  author    User     @relation(fields: [userId], references: [id])
+  userId    String
+  review    Review   @relation(fields: [reviewId], references: [id])
+  reviewId  String
+  createdAt DateTime @default(now())
+}
+
+model Vote {
+  id       String   @id @default(uuid())
+  type     VoteType
+  author   User     @relation(fields: [userId], references: [id])
+  userId   String
+  review   Review   @relation(fields: [reviewId], references: [id])
+  reviewId String
+
+  @@unique([userId, reviewId])
+}
+
+enum VoteType {
+  UP
+  DOWN
+}
+
+model Payment {
+  id        String        @id @default(uuid())
+  author    User          @relation(fields: [userId], references: [id])
+  userId    String
+  review    Review        @relation(fields: [reviewId], references: [id])
+  reviewId  String
+  amount    Float
+  status    PaymentStatus
+  createdAt DateTime      @default(now())
+}
+
+enum PaymentStatus {
+  SUCCESS
+  FAILED
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
