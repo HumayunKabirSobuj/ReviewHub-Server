@@ -5,10 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const http_status_1 = __importDefault(require("http-status"));
 const globalErrorHandler = (err, req, res, next) => {
-    // console.log('error occured...');
-    res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({
+    var _a;
+    // console.log(err);
+    res.status((_a = err.statusCode) !== null && _a !== void 0 ? _a : http_status_1.default.INTERNAL_SERVER_ERROR).json({
         success: false,
-        message: err.message || "something went wrong",
+        message: err.message || "Something went wrong",
     });
 };
 exports.default = globalErrorHandler;
