@@ -10,7 +10,11 @@ router.get(
   RoleValidation(UserRole.ADMIN, UserRole.USER),
   reviewController.getAllReview
 );
-// router.get("/:id", CategoryController.getSingleCategory);
+router.get(
+  "/:id",
+  RoleValidation(UserRole.ADMIN, UserRole.USER),
+  reviewController.getSingleReview
+);
 
 router.post(
   "/create-review",

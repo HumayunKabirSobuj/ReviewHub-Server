@@ -5,9 +5,9 @@ import { ReviewService } from "./review.service";
 import { Request } from "express";
 
 const addReview = catchAsync(async (req: Request & { user?: any }, res) => {
-  const result = await ReviewService.addReview(req.body,req.user.id);
+  const result = await ReviewService.addReview(req.body, req.user.id);
 
-//   console.log(req.user);
+  //   console.log(req.user);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
@@ -15,10 +15,22 @@ const addReview = catchAsync(async (req: Request & { user?: any }, res) => {
     data: result,
   });
 });
-const getAllReview = catchAsync(async (req: Request & { user?: any }, res) => {
+const getAllReview = catchAsync(async (req, res) => {
   const result = await ReviewService.getAllReview();
 
-//   console.log(req.user);
+  //   console.log(req.user);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "All Review Fetched Successfuly.",
+    data: result,
+  });
+});
+const getSingleReview = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await ReviewService.getSingleReview(id);
+
+  //   console.log(req.user);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
@@ -29,5 +41,6 @@ const getAllReview = catchAsync(async (req: Request & { user?: any }, res) => {
 
 export const reviewController = {
   addReview,
-  getAllReview
+  getAllReview,
+  getSingleReview
 };

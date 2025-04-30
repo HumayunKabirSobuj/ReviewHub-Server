@@ -49,8 +49,52 @@ const getAllReview = async () => {
   });
   return result;
 };
+const getSingleReview = async (id: string) => {
+  const review = await prisma.review.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profileUrl: true,
+        },
+      },
+      category: true,
+      comments: true,
+      votes: true,
+    },
+  });
+
+  const paymentCount = await prisma.payment.count({
+    where: {
+      reviewId: id,
+    },
+  });
+  const totalComments = await prisma.comment.count({
+    where: {
+      reviewId: id,
+    },
+  });
+  const totalVotes = await prisma.comment.count({
+    where: {
+      reviewId: id,
+    },
+  });
+
+  return {
+    ...review,
+    paymentCount,
+    totalComments,
+    totalVotes
+  };
+};
 
 export const ReviewService = {
   addReview,
   getAllReview,
+  getSingleReview,
 };
