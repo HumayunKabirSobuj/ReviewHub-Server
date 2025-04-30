@@ -33,7 +33,24 @@ const addReview = async (data: Review, userId: string) => {
   });
   return result;
 };
+const getAllReview = async () => {
+  const result = await prisma.review.findMany({
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profileUrl: true,
+        },
+      },
+      category: true,
+    },
+  });
+  return result;
+};
 
 export const ReviewService = {
   addReview,
+  getAllReview,
 };

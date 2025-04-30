@@ -15,7 +15,19 @@ const addReview = catchAsync(async (req: Request & { user?: any }, res) => {
     data: result,
   });
 });
+const getAllReview = catchAsync(async (req: Request & { user?: any }, res) => {
+  const result = await ReviewService.getAllReview();
+
+//   console.log(req.user);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "All Review Fetched Successfuly.",
+    data: result,
+  });
+});
 
 export const reviewController = {
   addReview,
+  getAllReview
 };
