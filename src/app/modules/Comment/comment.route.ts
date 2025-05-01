@@ -1,0 +1,14 @@
+import express from "express";
+import RoleValidation from "../../middlewares/RoleValidation";
+import { UserRole } from "@prisma/client";
+import { CommentController } from "./comment.controller";
+const router = express.Router();
+
+router.post(
+  "/create-comment",
+  RoleValidation(UserRole.ADMIN, UserRole.USER),
+  CommentController.addComment
+);
+
+
+export const CommentRoutes = router;

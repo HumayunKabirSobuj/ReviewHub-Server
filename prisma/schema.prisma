@@ -41,9 +41,9 @@ model Review {
   isPremium      Boolean   @default(false)
   price          Float? // only for premium reviews
   isPublished    Boolean   @default(false)
-  author         User      @relation(fields: [userId], references: [id])
+  author         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String
-  category       Category  @relation(fields: [categoryId], references: [id])
+  category       Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId     String
   comments       Comment[]
   votes          Vote[]
@@ -55,9 +55,9 @@ model Review {
 model Comment {
   id        String   @id @default(uuid())
   content   String
-  author    User     @relation(fields: [userId], references: [id])
+  author    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  review    Review   @relation(fields: [reviewId], references: [id])
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId  String
   createdAt DateTime @default(now())
 }
@@ -65,9 +65,9 @@ model Comment {
 model Vote {
   id       String   @id @default(uuid())
   type     VoteType
-  author   User     @relation(fields: [userId], references: [id])
+  author   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   String
-  review   Review   @relation(fields: [reviewId], references: [id])
+  review   Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId String
 
   @@unique([userId, reviewId])
@@ -80,9 +80,9 @@ enum VoteType {
 
 model Payment {
   id        String        @id @default(uuid())
-  author    User          @relation(fields: [userId], references: [id])
+  author    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  review    Review        @relation(fields: [reviewId], references: [id])
+  review    Review        @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId  String
   amount    Float
   status    PaymentStatus

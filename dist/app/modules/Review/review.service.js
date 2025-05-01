@@ -68,6 +68,7 @@ const getSingleReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
             },
             category: true,
             comments: true,
+            Payment: true,
             votes: true,
         },
     });
