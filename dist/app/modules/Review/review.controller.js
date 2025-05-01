@@ -72,9 +72,31 @@ const myselfAllReviews = (0, catchAsync_1.default)((req, res) => __awaiter(void 
         data: result,
     });
 }));
+const pendingReviews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield review_service_1.ReviewService.pendingReviews();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Pending Reviews Fetched Successfuly.",
+        data: result,
+    });
+}));
+const makeReviewPublished = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(req.params);
+    const { id } = req.params;
+    const result = yield review_service_1.ReviewService.makeReviewPublished(id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Review Published Successfuly.",
+        data: result,
+    });
+}));
 exports.reviewController = {
     addReview,
     getAllReview,
     getSingleReview,
     myselfAllReviews,
+    pendingReviews,
+    makeReviewPublished,
 };

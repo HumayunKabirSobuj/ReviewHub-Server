@@ -17,9 +17,9 @@ const addReview = catchAsync(async (req: Request & { user?: any }, res) => {
 });
 const getAllReview = catchAsync(async (req, res) => {
   // console.log(req.query);
-  const {searchTerm, ...options} = req.query;
+  const { searchTerm, ...options } = req.query;
   // console.log(options);
-  const result = await ReviewService.getAllReview(req.query,options);
+  const result = await ReviewService.getAllReview(req.query, options);
 
   //   console.log(req.user);
   sendResponse(res, {
@@ -41,7 +41,6 @@ const getSingleReview = catchAsync(async (req, res) => {
     data: result,
   });
 });
-
 const myselfAllReviews = catchAsync(
   async (req: Request & { user?: any }, res) => {
     const result = await ReviewService.myselfAllReviews(req.user.id);
@@ -55,10 +54,31 @@ const myselfAllReviews = catchAsync(
     });
   }
 );
-
+const pendingReviews = catchAsync(async (req, res) => {
+  const result = await ReviewService.pendingReviews();
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Pending Reviews Fetched Successfuly.",
+    data: result,
+  });
+});
+const makeReviewPublished = catchAsync(async (req, res) => {
+  // console.log(req.params);
+  const { id } = req.params;
+  const result = await ReviewService.makeReviewPublished(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Review Published Successfuly.",
+    data: result,
+  });
+});
 export const reviewController = {
   addReview,
   getAllReview,
   getSingleReview,
   myselfAllReviews,
+  pendingReviews,
+  makeReviewPublished,
 };

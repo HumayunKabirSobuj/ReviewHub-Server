@@ -36,8 +36,6 @@ const addReview = async (data: Review, userId: string) => {
   return result;
 };
 const getAllReview = async (params: any, options: any) => {
-  // console.log(options);
-  // const { page, limit } = options;
   const { limit, skip, page } = paginationHelper.calculatePagination(options);
 
   const andConditions = [];
@@ -52,6 +50,10 @@ const getAllReview = async (params: any, options: any) => {
       })),
     });
   }
+
+  andConditions.push({
+    isPublished: true,
+  });
 
   // console.dir(andConditions, { depth: "infinity" });
 
@@ -172,9 +174,63 @@ const myselfAllReviews = async (userId: string) => {
   return result;
 };
 
+const pendingReviews = async () => {
+  const result = await prisma.review.findMany({
+    where: {
+      isPublished: false,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profileUrl: true,
+        },
+      },
+      category: true,
+    },
+  });
+  return result;
+};
+
+const makeReviewPublished = async (id: string) => {
+  // console.log("makeReviewPublished...",id);
+
+  const isReviewExist = await prisma.review.findUnique({
+    where: {
+      id,
+    },
+  });
+  // console.log(isReviewExist);
+
+  if (!isReviewExist) {
+    throw new AppError(status.NOT_FOUND, "Review not found!");
+  }
+
+  if (isReviewExist.isPublished === true) {
+    throw new Error("Already Published!");
+  }
+
+  const result = await prisma.review.update({
+    where: {
+      id,
+    },
+    data: {
+      isPublished: true,
+    },
+  });
+  return result;
+};
+
 export const ReviewService = {
   addReview,
   getAllReview,
   getSingleReview,
   myselfAllReviews,
+  pendingReviews,
+  makeReviewPublished,
 };

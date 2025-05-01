@@ -39,8 +39,6 @@ const addReview = (data, userId) => __awaiter(void 0, void 0, void 0, function* 
     return result;
 });
 const getAllReview = (params, options) => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log(options);
-    // const { page, limit } = options;
     const { limit, skip, page } = paginationHelper_1.paginationHelper.calculatePagination(options);
     const andConditions = [];
     if (params.searchTerm) {
@@ -53,6 +51,9 @@ const getAllReview = (params, options) => __awaiter(void 0, void 0, void 0, func
             })),
         });
     }
+    andConditions.push({
+        isPublished: true,
+    });
     // console.dir(andConditions, { depth: "infinity" });
     const whereConditions = { AND: andConditions };
     const result = yield prisma_1.default.review.findMany({
@@ -161,9 +162,57 @@ const myselfAllReviews = (userId) => __awaiter(void 0, void 0, void 0, function*
     });
     return result;
 });
+const pendingReviews = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.review.findMany({
+        where: {
+            isPublished: false,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+        include: {
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    profileUrl: true,
+                },
+            },
+            category: true,
+        },
+    });
+    return result;
+});
+const makeReviewPublished = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log("makeReviewPublished...",id);
+    const isReviewExist = yield prisma_1.default.review.findUnique({
+        where: {
+            id,
+        },
+    });
+    // console.log(isReviewExist);
+    if (!isReviewExist) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Review not found!");
+    }
+    if (isReviewExist.isPublished === true) {
+        throw new Error("Already Published!");
+    }
+    const result = yield prisma_1.default.review.update({
+        where: {
+            id,
+        },
+        data: {
+            isPublished: true,
+        },
+    });
+    return result;
+});
 exports.ReviewService = {
     addReview,
     getAllReview,
     getSingleReview,
     myselfAllReviews,
+    pendingReviews,
+    makeReviewPublished,
 };
