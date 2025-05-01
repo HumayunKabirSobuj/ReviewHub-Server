@@ -2,6 +2,7 @@ import { Review } from "@prisma/client";
 import prisma from "../../../shared/prisma";
 import AppError from "../../Errors/AppError";
 import status from "http-status";
+import { ReviewSearchableFields } from "../../constants/searchableFieldConstant";
 
 const addReview = async (data: Review, userId: string) => {
   //   console.log("data", data);
@@ -33,8 +34,26 @@ const addReview = async (data: Review, userId: string) => {
   });
   return result;
 };
-const getAllReview = async () => {
+const getAllReview = async (params: any) => {
+  const andConditions = [];
+
+  if (params.searchTerm) {
+    andConditions.push({
+      OR: ReviewSearchableFields.map((field) => ({
+        [field]: {
+          contains: params.searchTerm,
+          mode: "insensitive",
+        },
+      })),
+    });
+  }
+
+  // console.dir(andConditions, { depth: "infinity" });
+
+  const whereConditions = { AND: andConditions };
+
   const result = await prisma.review.findMany({
+    where: whereConditions,
     include: {
       author: {
         select: {
@@ -65,10 +84,9 @@ const getSingleReview = async (id: string) => {
       },
       category: true,
       comments: {
-       
         select: {
-          id:true,
-          content:true,
+          id: true,
+          content: true,
           author: {
             select: {
               id: true,
@@ -81,10 +99,9 @@ const getSingleReview = async (id: string) => {
       },
       Payment: true,
       votes: {
-       
         select: {
-          id:true,
-          type:true,
+          id: true,
+          type: true,
           author: {
             select: {
               id: true,
