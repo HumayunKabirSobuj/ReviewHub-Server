@@ -65,7 +65,10 @@ const getSingleReview = async (id: string) => {
       },
       category: true,
       comments: {
-        include: {
+       
+        select: {
+          id:true,
+          content:true,
           author: {
             select: {
               id: true,
@@ -77,7 +80,21 @@ const getSingleReview = async (id: string) => {
         },
       },
       Payment: true,
-      votes: true,
+      votes: {
+       
+        select: {
+          id:true,
+          type:true,
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              profileUrl: true,
+            },
+          },
+        },
+      },
     },
   });
 
