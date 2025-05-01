@@ -16,6 +16,8 @@ exports.ReviewService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const AppError_1 = __importDefault(require("../../Errors/AppError"));
 const http_status_1 = __importDefault(require("http-status"));
+const searchableFieldConstant_1 = require("../../constants/searchableFieldConstant");
+const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const addReview = (data, userId) => __awaiter(void 0, void 0, void 0, function* () {
     //   console.log("data", data);
     //   console.log("data", authorId);
@@ -36,8 +38,30 @@ const addReview = (data, userId) => __awaiter(void 0, void 0, void 0, function* 
     });
     return result;
 });
-const getAllReview = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllReview = (params, options) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(options);
+    // const { page, limit } = options;
+    const { limit, skip, page } = paginationHelper_1.paginationHelper.calculatePagination(options);
+    const andConditions = [];
+    if (params.searchTerm) {
+        andConditions.push({
+            OR: searchableFieldConstant_1.ReviewSearchableFields.map((field) => ({
+                [field]: {
+                    contains: params.searchTerm,
+                    mode: "insensitive",
+                },
+            })),
+        });
+    }
+    // console.dir(andConditions, { depth: "infinity" });
+    const whereConditions = { AND: andConditions };
     const result = yield prisma_1.default.review.findMany({
+        where: whereConditions,
+        skip,
+        take: limit,
+        orderBy: {
+            createdAt: "desc",
+        },
         include: {
             author: {
                 select: {

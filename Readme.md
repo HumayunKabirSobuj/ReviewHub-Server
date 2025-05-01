@@ -111,7 +111,8 @@ https://reviewhub-backend-one.vercel.app
 ```
 ### 7\. **Get All Review**
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review`**
+#### ✅ **.** **`GET reviewhub-backend-one.vercel.app/api/review?searchTerm=testing&page=3&limit=1`**\
+#### searchTerm for searching & page, limit for pagination
 
 
 ### 8\. **Get Single Review ( Review Details ) **
