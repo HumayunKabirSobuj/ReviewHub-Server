@@ -119,9 +119,55 @@ https://reviewhub-backend-one.vercel.app
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/72823e1a-d349-4b96-88a8-753fb5c4dd9a`**
 
+
 ### 9\. **Myself all reviews**
 #### Authorization Token Need 
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/my-reviews`**
 
+
+### 10\. **Add Comment**
+#### Authorization Token Need 
+
+#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/comment/create-comment`**
+
+#### 📥 Request Body
+
+```
+{
+  "content": "Test 1, thank you!",
+  "reviewId": "de71f985-3a61-4a28-8d05-ad258d656bff"
+}
+
+```
+
+### 11\. **MySelf Comments**
+#### Authorization Token Need 
+
+#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/comment/my-comments`**
+
+
+
+### 12\. **Add Vote**
+#### Authorization Token Need 
+#### A user can vote on a review only once. Multiple votes by the same user on the same review are not allowed.
+
+#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/vote/create-vote`**
+
+#### 📥 Request Body
+
+```
+
+{
+  "type": "DOWN",                   //UP or "DOWN"   
+  "reviewId": "de71f985-3a61-4a28-8d05-ad258d656bff"  // valid review ID
+}
+
+
+```
+
+### 13\. **MySelf Comment**
+#### Authorization Token Need 
+
+#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/vote/my-votes`**
 

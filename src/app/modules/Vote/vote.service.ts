@@ -4,24 +4,39 @@ import AppError from "../../Errors/AppError";
 import status from "http-status";
 
 const addVote = async (voteData: Vote) => {
-    console.log("add Vote...", voteData);
-
-  const ifReviewExist = await prisma.review.findUnique({
-    where: {
-      id: voteData.reviewId,
-    },
-  });
-  //   console.log(ifReviewExist);
-
-  if (!ifReviewExist) {
-    throw new AppError(status.NOT_FOUND, "Review Not found!");
-  }
-
-  const result = await prisma.vote.create({
-    data: voteData,
-  });
-  return result;
-};
+    // Step 1: Check if the review exists
+    const ifReviewExist = await prisma.review.findFirst({
+      where: {
+        id: voteData.reviewId,
+      },
+    });
+  
+    if (!ifReviewExist) {
+      throw new AppError(status.NOT_FOUND, "Review Not found!");
+    }
+  
+    // Step 2: Check if user already voted on this review
+    const existingVote = await prisma.vote.findFirst({
+      where: {
+        userId: voteData.userId,
+        reviewId: voteData.reviewId,
+      },
+    });
+  
+    if (existingVote) {
+      throw new AppError(status.CONFLICT, "You have already voted on this review!");
+    }
+  
+    // Step 3: Create the vote
+    const result = await prisma.vote.create({
+      data: {
+        ...voteData,
+      },
+    });
+  
+    return result;
+  };
+  
 
 const myVotes = async (userId: string) => {
   // console.log('myComments....', userId);
@@ -44,6 +59,6 @@ const myVotes = async (userId: string) => {
 };
 
 export const VoteService = {
-    addVote,
-    myVotes
+  addVote,
+  myVotes,
 };
