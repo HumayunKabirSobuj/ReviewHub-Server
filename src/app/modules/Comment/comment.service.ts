@@ -23,6 +23,27 @@ const addComment = async (commentData: Comment) => {
   return result;
 };
 
+const myComments = async (userId: string) => {
+  // console.log('myComments....', userId);
+
+  const result = await prisma.comment.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      review: {
+        select: {
+          title: true,
+          excerp: true,
+          description: true,
+        },
+      },
+    },
+  });
+  return result;
+};
+
 export const CommentService = {
   addComment,
+  myComments,
 };

@@ -22,7 +22,20 @@ const addComment = catchAsync(async (req: Request & { user?: any }, res) => {
     data: result,
   });
 });
+const myComments = catchAsync(async (req: Request & { user?: any }, res) => {
+
+
+  const result = await CommentService.myComments(req.user.id);
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "My Comments Fetched Successfuly.",
+    data: result,
+  });
+});
 
 export const CommentController = {
   addComment,
+  myComments
 };
