@@ -3,6 +3,7 @@ import prisma from "../../../shared/prisma";
 import AppError from "../../Errors/AppError";
 import status from "http-status";
 import { ReviewSearchableFields } from "../../constants/searchableFieldConstant";
+import { paginationHelper } from "../../../helpers/paginationHelper";
 
 const addReview = async (data: Review, userId: string) => {
   //   console.log("data", data);
@@ -34,7 +35,11 @@ const addReview = async (data: Review, userId: string) => {
   });
   return result;
 };
-const getAllReview = async (params: any) => {
+const getAllReview = async (params: any, options: any) => {
+  // console.log(options);
+  // const { page, limit } = options;
+  const { limit, skip, page } = paginationHelper.calculatePagination(options);
+
   const andConditions = [];
 
   if (params.searchTerm) {
@@ -54,6 +59,11 @@ const getAllReview = async (params: any) => {
 
   const result = await prisma.review.findMany({
     where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: {
+      createdAt: "desc",
+    },
     include: {
       author: {
         select: {
@@ -73,6 +83,7 @@ const getSingleReview = async (id: string) => {
     where: {
       id,
     },
+
     include: {
       author: {
         select: {

@@ -17,7 +17,9 @@ const addReview = catchAsync(async (req: Request & { user?: any }, res) => {
 });
 const getAllReview = catchAsync(async (req, res) => {
   // console.log(req.query);
-  const result = await ReviewService.getAllReview(req.query);
+  const {searchTerm, ...options} = req.query;
+  // console.log(options);
+  const result = await ReviewService.getAllReview(req.query,options);
 
   //   console.log(req.user);
   sendResponse(res, {
