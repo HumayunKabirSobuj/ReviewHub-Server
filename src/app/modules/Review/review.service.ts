@@ -64,7 +64,19 @@ const getSingleReview = async (id: string) => {
         },
       },
       category: true,
-      comments: true,
+      comments: {
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              profileUrl: true,
+            },
+          },
+        },
+      },
+      Payment: true,
       votes: true,
     },
   });
@@ -79,7 +91,7 @@ const getSingleReview = async (id: string) => {
       reviewId: id,
     },
   });
-  const totalVotes = await prisma.comment.count({
+  const totalVotes = await prisma.vote.count({
     where: {
       reviewId: id,
     },
@@ -112,7 +124,7 @@ const myselfAllReviews = async (userId: string) => {
       category: true,
     },
   });
-  return result
+  return result;
 };
 
 export const ReviewService = {
