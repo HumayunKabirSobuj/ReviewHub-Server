@@ -67,9 +67,35 @@ const getSingleReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
                 },
             },
             category: true,
-            comments: true,
+            comments: {
+                select: {
+                    id: true,
+                    content: true,
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            profileUrl: true,
+                        },
+                    },
+                },
+            },
             Payment: true,
-            votes: true,
+            votes: {
+                select: {
+                    id: true,
+                    type: true,
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            profileUrl: true,
+                        },
+                    },
+                },
+            },
         },
     });
     const paymentCount = yield prisma_1.default.payment.count({
@@ -82,7 +108,7 @@ const getSingleReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
             reviewId: id,
         },
     });
-    const totalVotes = yield prisma_1.default.comment.count({
+    const totalVotes = yield prisma_1.default.vote.count({
         where: {
             reviewId: id,
         },
