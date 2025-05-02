@@ -110,7 +110,18 @@ const getSingleReview = async (id: string) => {
           },
         },
       },
-      Payment: true,
+      Payment: {
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              profileUrl: true,
+            },
+          },
+        },
+      },
       votes: {
         select: {
           id: true,
@@ -226,6 +237,58 @@ const makeReviewPublished = async (id: string) => {
   return result;
 };
 
+const updateReview = async (
+  userId: string,
+  reviewId: string,
+  updateData: Partial<Review>
+) => {
+  // console.log("updateReview....");
+  // console.log({userId, reviewId});
+  // console.log(updateData);
+  const isReviewExist = await prisma.review.findFirst({
+    where: {
+      id: reviewId,
+      userId,
+    },
+  });
+
+  // console.log(isReviewExist);
+
+  if (!isReviewExist) {
+    throw new AppError(status.NOT_FOUND, "Review Not Found!");
+  }
+
+  const result = await prisma.review.update({
+    where: {
+      id: reviewId,
+    },
+    data: updateData,
+  });
+
+  return result;
+};
+
+const deleteReview = async (id: string) => {
+  const isReviewExist = await prisma.review.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  // console.log(isReviewExist);
+
+  if (!isReviewExist) {
+    throw new AppError(status.NOT_FOUND, "Review Not Found!");
+  }
+
+  const result = await prisma.review.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
 export const ReviewService = {
   addReview,
   getAllReview,
@@ -233,4 +296,6 @@ export const ReviewService = {
   myselfAllReviews,
   pendingReviews,
   makeReviewPublished,
+  updateReview,
+  deleteReview,
 };

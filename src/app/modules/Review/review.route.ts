@@ -34,10 +34,22 @@ router.post(
   RoleValidation(UserRole.ADMIN, UserRole.USER),
   reviewController.addReview
 );
+
 router.patch(
   "/make-review-published/:id",
   RoleValidation(UserRole.ADMIN),
   reviewController.makeReviewPublished
+);
+
+router.patch(
+  "/update-review/:id",
+  RoleValidation(UserRole.USER),
+  reviewController.updateReview
+);
+router.delete(
+  "/delete-review/:id",
+  RoleValidation(UserRole.USER, UserRole.ADMIN),
+  reviewController.deleteReview
 );
 
 export const ReviewRoutes = router;

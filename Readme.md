@@ -61,7 +61,6 @@ https://reviewhub-backend-one.vercel.app
 
 ## 🔴🔴 Category
 
-
 ### 3\. **Create Category**
 
 #### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/category/create-category`**
@@ -85,7 +84,6 @@ https://reviewhub-backend-one.vercel.app
 ### 5\. **Get Single Category**
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/category/8b00f961-4a54-4419-bd37-bf149d163e34`**
-
 
 ## 🔴🔴 Review
 
@@ -142,17 +140,27 @@ https://reviewhub-backend-one.vercel.app
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/pending-reviews`**
 
-
 ### 11\. **Make Review Active**
 
 #### Authorization Token Need ( Only admin can do this)
 
 #### ✅ **.** **`PATCH https://reviewhub-backend-one.vercel.app/api/review/make-review-published/de71f985-3a61-4a28-8d05-ad258d656bff`**
 
+### 12\. **Update Review**
+
+#### Authorization Token Need ( Only user can do this for this own review)
+
+#### ✅ **.** **`PATCH https://reviewhub-backend-one.vercel.app/api/review/update-review/e0917ce7-196c-4c93-aaa6-b343d3b6c41e`**
+
+### 13\. **Delete Review**
+
+#### Authorization Token Need ( user can do this for this own review, and admin can delete any review)
+
+#### ✅ **.** **`DELETE https://reviewhub-backend-one.vercel.app/api/review/delete-review/e0917ce7-196c-4c93-aaa6-b343d3b6c41e`**
+
 ## 🔴🔴 **Comment**
 
-
-### 12\. **Add Comment**
+### 14\. **Add Comment**
 
 #### Authorization Token Need
 
@@ -168,7 +176,7 @@ https://reviewhub-backend-one.vercel.app
 
 ```
 
-### 13\. **MySelf Comments**
+### 15\. **MySelf Comments**
 
 #### Authorization Token Need
 
@@ -176,8 +184,7 @@ https://reviewhub-backend-one.vercel.app
 
 ## 🔴🔴 **Vote**
 
-
-### 14\. **Add Vote**
+### 16\. **Add Vote**
 
 #### Authorization Token Need
 
@@ -197,7 +204,7 @@ https://reviewhub-backend-one.vercel.app
 
 ```
 
-### 15\. **MySelf Vote**
+### 17\. **MySelf Vote**
 
 #### Authorization Token Need
 

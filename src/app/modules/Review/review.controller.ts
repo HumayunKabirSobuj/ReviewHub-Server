@@ -74,6 +74,29 @@ const makeReviewPublished = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+const updateReview = catchAsync(async (req: Request & { user?: any }, res) => {
+  const { id } = req.params;
+
+  const result = await ReviewService.updateReview(req.user.id, id, req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Reviews Updated Successfuly.",
+    data: result,
+  });
+});
+const deleteReview = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await ReviewService.deleteReview(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Reviews Deleted Successfuly.",
+    data: result,
+  });
+});
 export const reviewController = {
   addReview,
   getAllReview,
@@ -81,4 +104,6 @@ export const reviewController = {
   myselfAllReviews,
   pendingReviews,
   makeReviewPublished,
+  updateReview,
+  deleteReview
 };

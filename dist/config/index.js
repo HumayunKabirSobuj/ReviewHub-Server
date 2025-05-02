@@ -20,6 +20,10 @@ exports.default = {
     reset_pass_link: process.env.RESET_PASS_LINK,
     emailSender: {
         email: process.env.EMAIL,
-        app_pass: process.env.APP_PASS
-    }
+        app_pass: process.env.APP_PASS,
+    },
+    store_id: process.env.STORE_ID,
+    store_pass: process.env.STORE_PASS,
+    backend_api_link: process.env.BACKEND_API_LINK,
+    client_link: process.env.CLIENT_LINK,
 };

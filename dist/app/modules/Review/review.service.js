@@ -106,7 +106,18 @@ const getSingleReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
                     },
                 },
             },
-            Payment: true,
+            Payment: {
+                include: {
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            profileUrl: true,
+                        },
+                    },
+                },
+            },
             votes: {
                 select: {
                     id: true,
@@ -208,6 +219,45 @@ const makeReviewPublished = (id) => __awaiter(void 0, void 0, void 0, function* 
     });
     return result;
 });
+const updateReview = (userId, reviewId, updateData) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log("updateReview....");
+    // console.log({userId, reviewId});
+    // console.log(updateData);
+    const isReviewExist = yield prisma_1.default.review.findFirst({
+        where: {
+            id: reviewId,
+            userId,
+        },
+    });
+    // console.log(isReviewExist);
+    if (!isReviewExist) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Review Not Found!");
+    }
+    const result = yield prisma_1.default.review.update({
+        where: {
+            id: reviewId,
+        },
+        data: updateData,
+    });
+    return result;
+});
+const deleteReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isReviewExist = yield prisma_1.default.review.findFirst({
+        where: {
+            id,
+        },
+    });
+    // console.log(isReviewExist);
+    if (!isReviewExist) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Review Not Found!");
+    }
+    const result = yield prisma_1.default.review.delete({
+        where: {
+            id,
+        },
+    });
+    return result;
+});
 exports.ReviewService = {
     addReview,
     getAllReview,
@@ -215,4 +265,6 @@ exports.ReviewService = {
     myselfAllReviews,
     pendingReviews,
     makeReviewPublished,
+    updateReview,
+    deleteReview,
 };
