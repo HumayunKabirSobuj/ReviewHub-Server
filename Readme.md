@@ -211,3 +211,19 @@ https://reviewhub-backend-one.vercel.app
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/vote/my-votes`**
 
 
+## 🔴🔴 **Payment**
+### 18\. **Make Order**
+
+#### Authorization Token Need ( Only user can do this )
+
+#### A user can buy on a review only once. Multiple payment by the same user on the same review are not allowed.
+
+#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/payment/make-order/04787a62-9764-4ed2-91df-c5767808523a`**
+#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/payment/make-order/reviewId`**
+
+
+### 19\. **MySelf Payments**
+
+#### Authorization Token Need ( Only user can do this )
+
+#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/payment/my-payments`**

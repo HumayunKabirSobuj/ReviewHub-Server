@@ -69,19 +69,12 @@ const makeOrder = (res, userId, reviewId) => __awaiter(void 0, void 0, void 0, f
     //   console.log(isReviewExist);
     // console.log(data);
     const sslcz = new sslcommerz_lts_1.default(store_id, store_passwd, is_live);
-    //   sslcz.init(data).then((apiResponse) => {
-    //     // Redirect the user to payment gateway
-    //     let GatewayPageURL = apiResponse.GatewayPageURL;
-    //     // res.redirect(GatewayPageURL);
-    //     res.send({ url: GatewayPageURL });
-    //     console.log("Redirecting to: ", GatewayPageURL);
-    //   });
     try {
         const apiResponse = yield sslcz.init(data); // Use await here
         // Redirect the user to payment gateway
         const GatewayPageURL = apiResponse.GatewayPageURL;
         res.send({ url: GatewayPageURL });
-        console.log("Redirecting to: ", GatewayPageURL);
+        // console.log("Redirecting to: ", GatewayPageURL);
     }
     catch (error) {
         // console.error('Error occurred:', error);
@@ -89,8 +82,6 @@ const makeOrder = (res, userId, reviewId) => __awaiter(void 0, void 0, void 0, f
     }
 });
 const successOrder = (userId, reviewId) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("successOrder....");
-    console.log({ userId, reviewId });
     const isReviewExist = yield prisma_1.default.review.findFirst({
         where: {
             id: reviewId,
