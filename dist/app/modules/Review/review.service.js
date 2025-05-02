@@ -16,6 +16,8 @@ exports.ReviewService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const AppError_1 = __importDefault(require("../../Errors/AppError"));
 const http_status_1 = __importDefault(require("http-status"));
+const searchableFieldConstant_1 = require("../../constants/searchableFieldConstant");
+const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const addReview = (data, userId) => __awaiter(void 0, void 0, void 0, function* () {
     //   console.log("data", data);
     //   console.log("data", authorId);
@@ -36,8 +38,31 @@ const addReview = (data, userId) => __awaiter(void 0, void 0, void 0, function* 
     });
     return result;
 });
-const getAllReview = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllReview = (params, options) => __awaiter(void 0, void 0, void 0, function* () {
+    const { limit, skip, page } = paginationHelper_1.paginationHelper.calculatePagination(options);
+    const andConditions = [];
+    if (params.searchTerm) {
+        andConditions.push({
+            OR: searchableFieldConstant_1.ReviewSearchableFields.map((field) => ({
+                [field]: {
+                    contains: params.searchTerm,
+                    mode: "insensitive",
+                },
+            })),
+        });
+    }
+    andConditions.push({
+        isPublished: true,
+    });
+    // console.dir(andConditions, { depth: "infinity" });
+    const whereConditions = { AND: andConditions };
     const result = yield prisma_1.default.review.findMany({
+        where: whereConditions,
+        skip,
+        take: limit,
+        orderBy: {
+            createdAt: "desc",
+        },
         include: {
             author: {
                 select: {
@@ -81,7 +106,18 @@ const getSingleReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
                     },
                 },
             },
-            Payment: true,
+            Payment: {
+                include: {
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            profileUrl: true,
+                        },
+                    },
+                },
+            },
             votes: {
                 select: {
                     id: true,
@@ -137,9 +173,98 @@ const myselfAllReviews = (userId) => __awaiter(void 0, void 0, void 0, function*
     });
     return result;
 });
+const pendingReviews = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.review.findMany({
+        where: {
+            isPublished: false,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+        include: {
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    profileUrl: true,
+                },
+            },
+            category: true,
+        },
+    });
+    return result;
+});
+const makeReviewPublished = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log("makeReviewPublished...",id);
+    const isReviewExist = yield prisma_1.default.review.findUnique({
+        where: {
+            id,
+        },
+    });
+    // console.log(isReviewExist);
+    if (!isReviewExist) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Review not found!");
+    }
+    if (isReviewExist.isPublished === true) {
+        throw new Error("Already Published!");
+    }
+    const result = yield prisma_1.default.review.update({
+        where: {
+            id,
+        },
+        data: {
+            isPublished: true,
+        },
+    });
+    return result;
+});
+const updateReview = (userId, reviewId, updateData) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log("updateReview....");
+    // console.log({userId, reviewId});
+    // console.log(updateData);
+    const isReviewExist = yield prisma_1.default.review.findFirst({
+        where: {
+            id: reviewId,
+            userId,
+        },
+    });
+    // console.log(isReviewExist);
+    if (!isReviewExist) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Review Not Found!");
+    }
+    const result = yield prisma_1.default.review.update({
+        where: {
+            id: reviewId,
+        },
+        data: updateData,
+    });
+    return result;
+});
+const deleteReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isReviewExist = yield prisma_1.default.review.findFirst({
+        where: {
+            id,
+        },
+    });
+    // console.log(isReviewExist);
+    if (!isReviewExist) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Review Not Found!");
+    }
+    const result = yield prisma_1.default.review.delete({
+        where: {
+            id,
+        },
+    });
+    return result;
+});
 exports.ReviewService = {
     addReview,
     getAllReview,
     getSingleReview,
     myselfAllReviews,
+    pendingReviews,
+    makeReviewPublished,
+    updateReview,
+    deleteReview,
 };

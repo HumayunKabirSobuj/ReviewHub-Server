@@ -31,6 +31,9 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "http-status": "^2.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "sslcommerz-lts": "^1.1.0",
+    "sslcommerz-nodejs": "^1.0.8",
+    "uuid": "^11.1.0"
   }
 }

@@ -22,6 +22,8 @@ https://reviewhub-backend-one.vercel.app
 
 ---
 
+## 🔴🔴 Auth
+
 ### 1\. **Create User**
 
 ---
@@ -57,6 +59,8 @@ https://reviewhub-backend-one.vercel.app
 }
 ```
 
+## 🔴🔴 Category
+
 ### 3\. **Create Category**
 
 #### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/category/create-category`**
@@ -80,6 +84,8 @@ https://reviewhub-backend-one.vercel.app
 ### 5\. **Get Single Category**
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/category/8b00f961-4a54-4419-bd37-bf149d163e34`**
+
+## 🔴🔴 Review
 
 ### 6\. **Add Review**
 
@@ -109,25 +115,54 @@ https://reviewhub-backend-one.vercel.app
 }
 
 ```
+
 ### 7\. **Get All Review**
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review`**
+#### ✅ **.** **`GET reviewhub-backend-one.vercel.app/api/review?searchTerm=testing&page=3&limit=1`**\
 
+#### searchTerm for searching & page, limit for pagination
 
 ### 8\. **Get Single Review ( Review Details ) **
+
 #### Authorization Token Need ( Anyone can view Review details)
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/72823e1a-d349-4b96-88a8-753fb5c4dd9a`**
 
-
 ### 9\. **Myself all reviews**
-#### Authorization Token Need 
+
+#### Authorization Token Need
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/my-reviews`**
 
+### 10\. **Pending Reviews**
 
-### 10\. **Add Comment**
-#### Authorization Token Need 
+#### Authorization Token Need ( Only admin can show)
+
+#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/pending-reviews`**
+
+### 11\. **Make Review Active**
+
+#### Authorization Token Need ( Only admin can do this)
+
+#### ✅ **.** **`PATCH https://reviewhub-backend-one.vercel.app/api/review/make-review-published/de71f985-3a61-4a28-8d05-ad258d656bff`**
+
+### 12\. **Update Review**
+
+#### Authorization Token Need ( Only user can do this for this own review)
+
+#### ✅ **.** **`PATCH https://reviewhub-backend-one.vercel.app/api/review/update-review/e0917ce7-196c-4c93-aaa6-b343d3b6c41e`**
+
+### 13\. **Delete Review**
+
+#### Authorization Token Need ( user can do this for this own review, and admin can delete any review)
+
+#### ✅ **.** **`DELETE https://reviewhub-backend-one.vercel.app/api/review/delete-review/e0917ce7-196c-4c93-aaa6-b343d3b6c41e`**
+
+## 🔴🔴 **Comment**
+
+### 14\. **Add Comment**
+
+#### Authorization Token Need
 
 #### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/comment/create-comment`**
 
@@ -141,15 +176,18 @@ https://reviewhub-backend-one.vercel.app
 
 ```
 
-### 11\. **MySelf Comments**
-#### Authorization Token Need 
+### 15\. **MySelf Comments**
+
+#### Authorization Token Need
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/comment/my-comments`**
 
+## 🔴🔴 **Vote**
 
+### 16\. **Add Vote**
 
-### 12\. **Add Vote**
-#### Authorization Token Need 
+#### Authorization Token Need
+
 #### A user can vote on a review only once. Multiple votes by the same user on the same review are not allowed.
 
 #### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/vote/create-vote`**
@@ -159,15 +197,17 @@ https://reviewhub-backend-one.vercel.app
 ```
 
 {
-  "type": "DOWN",                   //UP or "DOWN"   
+  "type": "DOWN",                   //UP or "DOWN"
   "reviewId": "de71f985-3a61-4a28-8d05-ad258d656bff"  // valid review ID
 }
 
 
 ```
 
-### 13\. **MySelf Comment**
-#### Authorization Token Need 
+### 17\. **MySelf Vote**
+
+#### Authorization Token Need
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/vote/my-votes`**
+
 
