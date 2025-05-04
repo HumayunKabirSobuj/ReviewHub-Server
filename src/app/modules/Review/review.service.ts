@@ -35,13 +35,121 @@ const addReview = async (data: Review, userId: string) => {
   });
   return result;
 };
+// const getAllReview = async (params: any, options: any) => {
+//   const { limit, skip, page } = paginationHelper.calculatePagination(options);
+
+//   // console.log(options);
+//   const andConditions = [];
+
+//   if (params.searchTerm && params.searchTerm !== "") {
+//     andConditions.push({
+//       OR: ReviewSearchableFields.map((field) => ({
+//         [field]: {
+//           contains: params.searchTerm,
+//           mode: "insensitive",
+//         },
+//       })),
+//     });
+//   }
+
+//   andConditions.push({
+//     isPublished: true,
+//   });
+
+//   // if (options.isPublished === "true") {
+//   //   // console.log('pending....');
+//   //   andConditions.push({
+//   //     isPublished: true,
+//   //   });
+//   // }
+//   if (options.isPublished === "false") {
+//     // console.log('pending....');
+//     andConditions.push({
+//       isPublished: false,
+//     });
+//   }
+
+//   if (options.isPaid === "true") {
+//     // console.log('pending....');
+//     andConditions.push({
+//       isPremium: true,
+//     });
+//   }
+//   if (options.categoryId !== "") {
+//     // console.log('pending....');
+//     andConditions.push({
+//       categoryId: options.categoryId,
+//     });
+//   }
+//   // if (options.isPanding && options.isPanding === "") {
+//   //   // console.log('pending....');
+//   //   andConditions.push({
+//   //     isPublished: true,
+//   //   });
+//   // }
+
+//   console.dir(andConditions, { depth: "infinity" });
+
+//   const whereConditions = { AND: andConditions };
+
+//   const result = await prisma.review.findMany({
+//     where: whereConditions,
+//     skip,
+//     take: limit,
+//     orderBy: {
+//       createdAt: "desc",
+//     },
+//     include: {
+//       author: {
+//         select: {
+//           id: true,
+//           name: true,
+//           email: true,
+//           profileUrl: true,
+//         },
+//       },
+//       category: true,
+//       comments: {
+//         select: {
+//           id: true,
+//           content: true,
+//           author: {
+//             select: {
+//               id: true,
+//               name: true,
+//               email: true,
+//               profileUrl: true,
+//             },
+//           },
+//         },
+//       },
+//       votes: {
+//         select: {
+//           id: true,
+//           type: true,
+//           author: {
+//             select: {
+//               id: true,
+//               name: true,
+//               email: true,
+//               profileUrl: true,
+//             },
+//           },
+//         },
+//       },
+//     },
+//   });
+
+//   return result;
+// };
+
 const getAllReview = async (params: any, options: any) => {
-  const { limit, skip, page } = paginationHelper.calculatePagination(options);
+  const { limit, skip } = paginationHelper.calculatePagination(options);
 
-  // console.log(options);
-  const andConditions = [];
+  let andConditions: any[] = [];
 
-  if (params.searchTerm) {
+  // Search Term filter
+  if (params.searchTerm?.trim()) {
     andConditions.push({
       OR: ReviewSearchableFields.map((field) => ({
         [field]: {
@@ -52,30 +160,38 @@ const getAllReview = async (params: any, options: any) => {
     });
   }
 
-  andConditions.push({
-    isPublished: true,
-  });
-
-  if (options.isPaid && options.isPaid === "true") {
-    // console.log('pending....');
-    andConditions.push({
-      isPremium: true,
-    });
+  // Published / Unpublished
+  if (options.isPublished === "false") {
+    andConditions.push({ isPublished: false });
+  } else {
+    andConditions.push({ isPublished: true });
   }
-  if (options.categoryId && options.categoryId !== "") {
-    // console.log('pending....');
-    andConditions.push({
-      categoryId: options.categoryId,
-    });
-  }
-  // if (options.isPanding && options.isPanding === "") {
-  //   // console.log('pending....');
-  //   andConditions.push({
-  //     isPublished: true,
-  //   });
-  // }
 
-  // console.dir(andConditions, { depth: "infinity" });
+  // Remove isPublished condition if empty string
+  if (options.isPublished === "") {
+    andConditions = andConditions.filter(
+      (condition) => !("isPublished" in condition)
+    );
+  }
+
+  // Premium / Free
+  if (options.isPaid === "true") {
+    andConditions.push({ isPremium: true });
+  } else if (options.isPaid === "false") {
+    andConditions.push({ isPremium: false });
+  }
+
+  // Remove isPremium condition if empty string
+  if (options.isPaid === "") {
+    andConditions = andConditions.filter(
+      (condition) => !("isPremium" in condition)
+    );
+  }
+
+  // Category filter
+  if (options.categoryId?.trim()) {
+    andConditions.push({ categoryId: options.categoryId });
+  }
 
   const whereConditions = { AND: andConditions };
 
@@ -96,10 +212,40 @@ const getAllReview = async (params: any, options: any) => {
         },
       },
       category: true,
+      comments: {
+        select: {
+          id: true,
+          content: true,
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              profileUrl: true,
+            },
+          },
+        },
+      },
+      votes: {
+        select: {
+          id: true,
+          type: true,
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              profileUrl: true,
+            },
+          },
+        },
+      },
     },
   });
+
   return result;
 };
+
 const getSingleReview = async (id: string) => {
   const review = await prisma.review.findUnique({
     where: {
