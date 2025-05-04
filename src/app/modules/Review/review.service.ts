@@ -38,6 +38,7 @@ const addReview = async (data: Review, userId: string) => {
 const getAllReview = async (params: any, options: any) => {
   const { limit, skip, page } = paginationHelper.calculatePagination(options);
 
+  // console.log(options);
   const andConditions = [];
 
   if (params.searchTerm) {
@@ -54,6 +55,25 @@ const getAllReview = async (params: any, options: any) => {
   andConditions.push({
     isPublished: true,
   });
+
+  if (options.isPaid && options.isPaid === "true") {
+    // console.log('pending....');
+    andConditions.push({
+      isPremium: true,
+    });
+  }
+  if (options.categoryId && options.categoryId !== "") {
+    // console.log('pending....');
+    andConditions.push({
+      categoryId: options.categoryId,
+    });
+  }
+  // if (options.isPanding && options.isPanding === "") {
+  //   // console.log('pending....');
+  //   andConditions.push({
+  //     isPublished: true,
+  //   });
+  // }
 
   // console.dir(andConditions, { depth: "infinity" });
 

@@ -118,7 +118,7 @@ https://reviewhub-backend-one.vercel.app
 
 ### 7\. **Get All Review**
 
-#### ✅ **.** **`GET reviewhub-backend-one.vercel.app/api/review?searchTerm=testing&page=3&limit=1`**\
+#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review?searchTerm=testing&page=3&limit=1&isPaid=true&categoryId=5473c071-1193-45e4-aa4a-e2eebb38c40d`**\
 
 #### searchTerm for searching & page, limit for pagination
 

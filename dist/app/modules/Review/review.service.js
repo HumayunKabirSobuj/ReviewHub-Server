@@ -40,6 +40,7 @@ const addReview = (data, userId) => __awaiter(void 0, void 0, void 0, function* 
 });
 const getAllReview = (params, options) => __awaiter(void 0, void 0, void 0, function* () {
     const { limit, skip, page } = paginationHelper_1.paginationHelper.calculatePagination(options);
+    // console.log(options);
     const andConditions = [];
     if (params.searchTerm) {
         andConditions.push({
@@ -54,6 +55,24 @@ const getAllReview = (params, options) => __awaiter(void 0, void 0, void 0, func
     andConditions.push({
         isPublished: true,
     });
+    if (options.isPaid && options.isPaid === "true") {
+        // console.log('pending....');
+        andConditions.push({
+            isPremium: true,
+        });
+    }
+    if (options.categoryId && options.categoryId !== "") {
+        // console.log('pending....');
+        andConditions.push({
+            categoryId: options.categoryId,
+        });
+    }
+    // if (options.isPanding && options.isPanding === "") {
+    //   // console.log('pending....');
+    //   andConditions.push({
+    //     isPublished: true,
+    //   });
+    // }
     // console.dir(andConditions, { depth: "infinity" });
     const whereConditions = { AND: andConditions };
     const result = yield prisma_1.default.review.findMany({
