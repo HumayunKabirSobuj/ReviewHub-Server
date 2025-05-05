@@ -40,8 +40,8 @@ const makeOrder = (res, userId, reviewId) => __awaiter(void 0, void 0, void 0, f
         total_amount: String(isReviewExist.price),
         currency: "BDT",
         tran_id: tran_id, // use unique tran_id for each api call
-        success_url: `${config_1.default.backend_api_link}/api/payment/success/${reviewId}`,
-        fail_url: `${config_1.default.backend_api_link}/api/payment/failed/${reviewId}`,
+        success_url: `${config_1.default.backend_api_link}/api/payment/success?userId=${userId}&reviewId=${isReviewExist === null || isReviewExist === void 0 ? void 0 : isReviewExist.id}`,
+        fail_url: `${config_1.default.backend_api_link}/api/payment/failed/?userId=${userId}&reviewId=${isReviewExist === null || isReviewExist === void 0 ? void 0 : isReviewExist.id}`,
         cancel_url: "http://localhost:3030/cancel",
         ipn_url: "http://localhost:3030/ipn",
         shipping_method: "Courier",

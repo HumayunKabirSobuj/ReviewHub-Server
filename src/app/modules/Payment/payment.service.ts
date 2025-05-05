@@ -33,8 +33,8 @@ const makeOrder = async (res: Response, userId: string, reviewId: string) => {
     total_amount: String(isReviewExist.price),
     currency: "BDT",
     tran_id: tran_id, // use unique tran_id for each api call
-    success_url: `${config.backend_api_link}/api/payment/success/${reviewId}`,
-    fail_url: `${config.backend_api_link}/api/payment/failed/${reviewId}`,
+    success_url: `${config.backend_api_link}/api/payment/success?userId=${userId}&reviewId=${isReviewExist?.id}`,
+    fail_url: `${config.backend_api_link}/api/payment/failed/?userId=${userId}&reviewId=${isReviewExist?.id}`,
     cancel_url: "http://localhost:3030/cancel",
     ipn_url: "http://localhost:3030/ipn",
     shipping_method: "Courier",

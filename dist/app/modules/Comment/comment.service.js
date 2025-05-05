@@ -50,7 +50,26 @@ const myComments = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     });
     return result;
 });
+const deleteComment = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log({ id });
+    const isCommentExist = yield prisma_1.default.comment.findUnique({
+        where: {
+            id,
+        },
+    });
+    // console.log(isCommentExist);
+    if (!isCommentExist) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Comment not found!");
+    }
+    const result = yield prisma_1.default.comment.delete({
+        where: {
+            id,
+        },
+    });
+    return result;
+});
 exports.CommentService = {
     addComment,
     myComments,
+    deleteComment,
 };

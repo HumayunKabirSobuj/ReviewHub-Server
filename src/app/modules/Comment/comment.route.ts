@@ -10,10 +10,17 @@ router.get(
   CommentController.myComments
 );
 
+router.delete(
+  "/delete-comment/:id",
+  RoleValidation(UserRole.ADMIN, UserRole.USER),
+  CommentController.deleteComment
+);
+
 router.post(
   "/create-comment",
   RoleValidation(UserRole.ADMIN, UserRole.USER),
   CommentController.addComment
 );
+
 
 export const CommentRoutes = router;

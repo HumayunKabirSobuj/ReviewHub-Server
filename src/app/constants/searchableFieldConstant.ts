@@ -3,3 +3,4 @@ export const ReviewSearchableFields: string[] = [
   "description",
   "excerp",
 ];
+export const UserSearchableFields: string[] = ["name", "email"];

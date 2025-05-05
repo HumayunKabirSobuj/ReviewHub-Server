@@ -11,6 +11,6 @@ const payment_controller_1 = require("./payment.controller");
 const router = express_1.default.Router();
 router.get("/my-payments", (0, RoleValidation_1.default)(client_1.UserRole.USER), payment_controller_1.PaymentController.myPayments);
 router.post("/make-order/:id", (0, RoleValidation_1.default)(client_1.UserRole.USER), payment_controller_1.PaymentController.makeOrder);
-router.post("/success/:reviewId", (0, RoleValidation_1.default)(client_1.UserRole.USER), payment_controller_1.PaymentController.successOrder);
-router.post("/failed/:reviewId", (0, RoleValidation_1.default)(client_1.UserRole.USER), payment_controller_1.PaymentController.PaymentFailed);
+router.post("/success", payment_controller_1.PaymentController.successOrder);
+router.post("/failed", payment_controller_1.PaymentController.PaymentFailed);
 exports.PaymentRoutes = router;

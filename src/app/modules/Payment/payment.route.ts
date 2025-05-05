@@ -4,8 +4,6 @@ import { UserRole } from "@prisma/client";
 import { PaymentController } from "./payment.controller";
 const router = express.Router();
 
-
-
 router.get(
   "/my-payments",
   RoleValidation(UserRole.USER),
@@ -16,14 +14,9 @@ router.post(
   RoleValidation(UserRole.USER),
   PaymentController.makeOrder
 );
+router.post("/success", PaymentController.successOrder);
 router.post(
-  "/success/:reviewId",
-  RoleValidation(UserRole.USER),
-  PaymentController.successOrder
-);
-router.post(
-  "/failed/:reviewId",
-  RoleValidation(UserRole.USER),
+  "/failed",
   PaymentController.PaymentFailed
 );
 

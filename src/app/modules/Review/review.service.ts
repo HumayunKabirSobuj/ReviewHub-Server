@@ -6,10 +6,10 @@ import { ReviewSearchableFields } from "../../constants/searchableFieldConstant"
 import { paginationHelper } from "../../../helpers/paginationHelper";
 
 const addReview = async (data: Review, userId: string) => {
-  //   console.log("data", data);
-  //   console.log("data", authorId);
+    console.log("data", data);
+    console.log("data", userId);
 
-  const isCategoryExist = await prisma.category.findUnique({
+  const isCategoryExist = await prisma.category.findFirst({
     where: {
       id: data.categoryId,
     },
@@ -35,113 +35,7 @@ const addReview = async (data: Review, userId: string) => {
   });
   return result;
 };
-// const getAllReview = async (params: any, options: any) => {
-//   const { limit, skip, page } = paginationHelper.calculatePagination(options);
 
-//   // console.log(options);
-//   const andConditions = [];
-
-//   if (params.searchTerm && params.searchTerm !== "") {
-//     andConditions.push({
-//       OR: ReviewSearchableFields.map((field) => ({
-//         [field]: {
-//           contains: params.searchTerm,
-//           mode: "insensitive",
-//         },
-//       })),
-//     });
-//   }
-
-//   andConditions.push({
-//     isPublished: true,
-//   });
-
-//   // if (options.isPublished === "true") {
-//   //   // console.log('pending....');
-//   //   andConditions.push({
-//   //     isPublished: true,
-//   //   });
-//   // }
-//   if (options.isPublished === "false") {
-//     // console.log('pending....');
-//     andConditions.push({
-//       isPublished: false,
-//     });
-//   }
-
-//   if (options.isPaid === "true") {
-//     // console.log('pending....');
-//     andConditions.push({
-//       isPremium: true,
-//     });
-//   }
-//   if (options.categoryId !== "") {
-//     // console.log('pending....');
-//     andConditions.push({
-//       categoryId: options.categoryId,
-//     });
-//   }
-//   // if (options.isPanding && options.isPanding === "") {
-//   //   // console.log('pending....');
-//   //   andConditions.push({
-//   //     isPublished: true,
-//   //   });
-//   // }
-
-//   console.dir(andConditions, { depth: "infinity" });
-
-//   const whereConditions = { AND: andConditions };
-
-//   const result = await prisma.review.findMany({
-//     where: whereConditions,
-//     skip,
-//     take: limit,
-//     orderBy: {
-//       createdAt: "desc",
-//     },
-//     include: {
-//       author: {
-//         select: {
-//           id: true,
-//           name: true,
-//           email: true,
-//           profileUrl: true,
-//         },
-//       },
-//       category: true,
-//       comments: {
-//         select: {
-//           id: true,
-//           content: true,
-//           author: {
-//             select: {
-//               id: true,
-//               name: true,
-//               email: true,
-//               profileUrl: true,
-//             },
-//           },
-//         },
-//       },
-//       votes: {
-//         select: {
-//           id: true,
-//           type: true,
-//           author: {
-//             select: {
-//               id: true,
-//               name: true,
-//               email: true,
-//               profileUrl: true,
-//             },
-//           },
-//         },
-//       },
-//     },
-//   });
-
-//   return result;
-// };
 
 const getAllReview = async (params: any, options: any) => {
   const { limit, skip } = paginationHelper.calculatePagination(options);
@@ -240,6 +134,18 @@ const getAllReview = async (params: any, options: any) => {
           },
         },
       },
+      Payment: {
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              profileUrl: true,
+            },
+          },
+        },
+      },
     },
   });
 
@@ -315,9 +221,16 @@ const getSingleReview = async (id: string) => {
       reviewId: id,
     },
   });
-  const totalVotes = await prisma.vote.count({
+  const totalDownVotes = await prisma.vote.count({
     where: {
       reviewId: id,
+      type:"DOWN"
+    },
+  });
+  const totalUpVotes = await prisma.vote.count({
+    where: {
+      reviewId: id,
+      type:"UP"
     },
   });
 
@@ -325,7 +238,8 @@ const getSingleReview = async (id: string) => {
     ...review,
     paymentCount,
     totalComments,
-    totalVotes,
+    totalUpVotes,
+    totalDownVotes
   };
 };
 
