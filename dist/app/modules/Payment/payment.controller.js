@@ -24,12 +24,14 @@ const makeOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
     yield payment_service_1.PaymentService.makeOrder(res, req.user.id, id);
 }));
 const successOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { reviewId } = req.params;
-    yield payment_service_1.PaymentService.successOrder(req.user.id, reviewId);
+    // const { reviewId } = req.params;
+    console.log(req.query);
+    const { userId, reviewId } = req.query;
+    yield payment_service_1.PaymentService.successOrder(userId, reviewId);
     res.redirect(`${config_1.default.client_link}/payment-successful/${reviewId}`);
 }));
 const PaymentFailed = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { reviewId } = req.params;
+    const { reviewId } = req.query;
     res.redirect(`${config_1.default.client_link}/payment-failed/${reviewId}`);
 }));
 const myPayments = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -45,5 +47,5 @@ exports.PaymentController = {
     makeOrder,
     successOrder,
     PaymentFailed,
-    myPayments
+    myPayments,
 };

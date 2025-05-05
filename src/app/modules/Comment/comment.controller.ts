@@ -6,13 +6,13 @@ import { Request } from "express";
 
 const addComment = catchAsync(async (req: Request & { user?: any }, res) => {
   //   console.log(req.body);
-//   console.log(req.user);
+  //   console.log(req.user);
   const commentData = {
     ...req.body,
-    userId:req.user.id
-  }
+    userId: req.user.id,
+  };
 
-//   console.log(commentData);
+  //   console.log(commentData);
   const result = await CommentService.addComment(commentData);
 
   sendResponse(res, {
@@ -23,8 +23,6 @@ const addComment = catchAsync(async (req: Request & { user?: any }, res) => {
   });
 });
 const myComments = catchAsync(async (req: Request & { user?: any }, res) => {
-
-
   const result = await CommentService.myComments(req.user.id);
 
   sendResponse(res, {
@@ -34,8 +32,20 @@ const myComments = catchAsync(async (req: Request & { user?: any }, res) => {
     data: result,
   });
 });
+const deleteComment = catchAsync(async (req: Request & { user?: any }, res) => {
+  const { id } = req.params;
+  const result = await CommentService.deleteComment(id);
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Comment Deleted Successfuly.",
+    data: result,
+  });
+});
 
 export const CommentController = {
   addComment,
-  myComments
+  myComments,
+  deleteComment,
 };

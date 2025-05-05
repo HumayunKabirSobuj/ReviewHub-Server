@@ -19,9 +19,9 @@ const http_status_1 = __importDefault(require("http-status"));
 const searchableFieldConstant_1 = require("../../constants/searchableFieldConstant");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const addReview = (data, userId) => __awaiter(void 0, void 0, void 0, function* () {
-    //   console.log("data", data);
-    //   console.log("data", authorId);
-    const isCategoryExist = yield prisma_1.default.category.findUnique({
+    console.log("data", data);
+    console.log("data", userId);
+    const isCategoryExist = yield prisma_1.default.category.findFirst({
         where: {
             id: data.categoryId,
         },
@@ -38,104 +38,6 @@ const addReview = (data, userId) => __awaiter(void 0, void 0, void 0, function* 
     });
     return result;
 });
-// const getAllReview = async (params: any, options: any) => {
-//   const { limit, skip, page } = paginationHelper.calculatePagination(options);
-//   // console.log(options);
-//   const andConditions = [];
-//   if (params.searchTerm && params.searchTerm !== "") {
-//     andConditions.push({
-//       OR: ReviewSearchableFields.map((field) => ({
-//         [field]: {
-//           contains: params.searchTerm,
-//           mode: "insensitive",
-//         },
-//       })),
-//     });
-//   }
-//   andConditions.push({
-//     isPublished: true,
-//   });
-//   // if (options.isPublished === "true") {
-//   //   // console.log('pending....');
-//   //   andConditions.push({
-//   //     isPublished: true,
-//   //   });
-//   // }
-//   if (options.isPublished === "false") {
-//     // console.log('pending....');
-//     andConditions.push({
-//       isPublished: false,
-//     });
-//   }
-//   if (options.isPaid === "true") {
-//     // console.log('pending....');
-//     andConditions.push({
-//       isPremium: true,
-//     });
-//   }
-//   if (options.categoryId !== "") {
-//     // console.log('pending....');
-//     andConditions.push({
-//       categoryId: options.categoryId,
-//     });
-//   }
-//   // if (options.isPanding && options.isPanding === "") {
-//   //   // console.log('pending....');
-//   //   andConditions.push({
-//   //     isPublished: true,
-//   //   });
-//   // }
-//   console.dir(andConditions, { depth: "infinity" });
-//   const whereConditions = { AND: andConditions };
-//   const result = await prisma.review.findMany({
-//     where: whereConditions,
-//     skip,
-//     take: limit,
-//     orderBy: {
-//       createdAt: "desc",
-//     },
-//     include: {
-//       author: {
-//         select: {
-//           id: true,
-//           name: true,
-//           email: true,
-//           profileUrl: true,
-//         },
-//       },
-//       category: true,
-//       comments: {
-//         select: {
-//           id: true,
-//           content: true,
-//           author: {
-//             select: {
-//               id: true,
-//               name: true,
-//               email: true,
-//               profileUrl: true,
-//             },
-//           },
-//         },
-//       },
-//       votes: {
-//         select: {
-//           id: true,
-//           type: true,
-//           author: {
-//             select: {
-//               id: true,
-//               name: true,
-//               email: true,
-//               profileUrl: true,
-//             },
-//           },
-//         },
-//       },
-//     },
-//   });
-//   return result;
-// };
 const getAllReview = (params, options) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const { limit, skip } = paginationHelper_1.paginationHelper.calculatePagination(options);
@@ -223,6 +125,18 @@ const getAllReview = (params, options) => __awaiter(void 0, void 0, void 0, func
                     },
                 },
             },
+            Payment: {
+                include: {
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            profileUrl: true,
+                        },
+                    },
+                },
+            },
         },
     });
     return result;
@@ -294,14 +208,22 @@ const getSingleReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
             reviewId: id,
         },
     });
-    const totalVotes = yield prisma_1.default.vote.count({
+    const totalDownVotes = yield prisma_1.default.vote.count({
         where: {
             reviewId: id,
+            type: "DOWN"
+        },
+    });
+    const totalUpVotes = yield prisma_1.default.vote.count({
+        where: {
+            reviewId: id,
+            type: "UP"
         },
     });
     return Object.assign(Object.assign({}, review), { paymentCount,
         totalComments,
-        totalVotes });
+        totalUpVotes,
+        totalDownVotes });
 });
 const myselfAllReviews = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     //  console.log('myselfAllReviews...',userId);

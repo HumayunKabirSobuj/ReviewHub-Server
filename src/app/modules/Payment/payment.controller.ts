@@ -11,19 +11,20 @@ const makeOrder = catchAsync(async (req: Request & { user?: any }, res) => {
   await PaymentService.makeOrder(res, req.user.id, id);
 });
 const successOrder = catchAsync(async (req: Request & { user?: any }, res) => {
-  const { reviewId } = req.params;
-  await PaymentService.successOrder(req.user.id, reviewId);
+  // const { reviewId } = req.params;
+  console.log(req.query);
+  const { userId, reviewId } = req.query;
+  await PaymentService.successOrder(userId as string, reviewId as string);
   res.redirect(`${config.client_link}/payment-successful/${reviewId}`);
 });
 
 const PaymentFailed = catchAsync(async (req, res) => {
-  const { reviewId } = req.params;
+  const { reviewId } = req.query;
   res.redirect(`${config.client_link}/payment-failed/${reviewId}`);
 });
 
 const myPayments = catchAsync(async (req: Request & { user?: any }, res) => {
-
- const result= await PaymentService.myPayments(req.user.id,);
+  const result = await PaymentService.myPayments(req.user.id);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
@@ -35,5 +36,5 @@ export const PaymentController = {
   makeOrder,
   successOrder,
   PaymentFailed,
-  myPayments
+  myPayments,
 };

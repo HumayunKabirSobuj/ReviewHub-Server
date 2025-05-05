@@ -43,7 +43,30 @@ const myComments = async (userId: string) => {
   return result;
 };
 
+const deleteComment = async (id: string) => {
+  // console.log({ id });
+
+  const isCommentExist = await prisma.comment.findUnique({
+    where: {
+      id,
+    },
+  });
+  // console.log(isCommentExist);
+
+  if (!isCommentExist) {
+    throw new AppError(status.NOT_FOUND, "Comment not found!");
+  }
+
+  const result = await prisma.comment.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
 export const CommentService = {
   addComment,
   myComments,
+  deleteComment,
 };
