@@ -43,9 +43,30 @@ const myPayments = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+const adminDashboardInfo = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield payment_service_1.PaymentService.adminDashboardInfo();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Total Payments Fetched Successfuly.",
+        data: result,
+    });
+}));
+const userDashboardInfo = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const result = yield payment_service_1.PaymentService.userDashboardInfo((_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "User Dashbaord Info Fetched Successfuly.",
+        data: result,
+    });
+}));
 exports.PaymentController = {
     makeOrder,
     successOrder,
     PaymentFailed,
     myPayments,
+    adminDashboardInfo,
+    userDashboardInfo,
 };

@@ -24,11 +24,9 @@ const getAllUsers = async (params: any, options: any) => {
 
   if (options.role === "USER") {
     andConditions.push({ role: UserRole.USER });
-  } else {
+  } else if (options.role === "ADMIN") {
     andConditions.push({ role: UserRole.ADMIN });
-  }
-
-  if (options.role === "all") {
+  } else {
     andConditions = andConditions.filter((condition) => !("role" in condition));
   }
 
@@ -36,13 +34,12 @@ const getAllUsers = async (params: any, options: any) => {
     andConditions.push({ status: UserStatus.ACTIVE });
   } else if (options.status === "BLOCKED") {
     andConditions.push({ status: UserStatus.BLOCKED });
-  }
-
-  if (options.status === "all") {
+  } else {
     andConditions = andConditions.filter(
       (condition) => !("status" in condition)
     );
   }
+
 
   const whereConditions = { AND: andConditions };
   // console.log("get.....");

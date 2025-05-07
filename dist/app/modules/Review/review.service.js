@@ -54,16 +54,27 @@ const getAllReview = (params, options) => __awaiter(void 0, void 0, void 0, func
         });
     }
     // Published / Unpublished
+    // if (options.isPublished === "false") {
+    //   andConditions.push({ isPublished: false });
+    // } else {
+    //   andConditions.push({ isPublished: true });
+    // }
+    // // Remove isPublished condition if empty string
+    // if (options.isPublished === "") {
+    //   andConditions = andConditions.filter(
+    //     (condition) => !("isPublished" in condition)
+    //   );
+    // }
     if (options.isPublished === "false") {
         andConditions.push({ isPublished: false });
     }
-    else {
+    else if (options.isPublished === "true") {
         andConditions.push({ isPublished: true });
     }
-    // Remove isPublished condition if empty string
-    if (options.isPublished === "") {
+    else {
         andConditions = andConditions.filter((condition) => !("isPublished" in condition));
     }
+    // Remove isPublished condition if empty string
     // Premium / Free
     if (options.isPaid === "true") {
         andConditions.push({ isPremium: true });
@@ -71,8 +82,7 @@ const getAllReview = (params, options) => __awaiter(void 0, void 0, void 0, func
     else if (options.isPaid === "false") {
         andConditions.push({ isPremium: false });
     }
-    // Remove isPremium condition if empty string
-    if (options.isPaid === "") {
+    else {
         andConditions = andConditions.filter((condition) => !("isPremium" in condition));
     }
     // Category filter
@@ -211,13 +221,13 @@ const getSingleReview = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const totalDownVotes = yield prisma_1.default.vote.count({
         where: {
             reviewId: id,
-            type: "DOWN"
+            type: "DOWN",
         },
     });
     const totalUpVotes = yield prisma_1.default.vote.count({
         where: {
             reviewId: id,
-            type: "UP"
+            type: "UP",
         },
     });
     return Object.assign(Object.assign({}, review), { paymentCount,

@@ -32,9 +32,29 @@ const myPayments = catchAsync(async (req: Request & { user?: any }, res) => {
     data: result,
   });
 });
+const adminDashboardInfo = catchAsync(async (req, res) => {
+  const result = await PaymentService.adminDashboardInfo();
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Total Payments Fetched Successfuly.",
+    data: result,
+  });
+});
+const userDashboardInfo = catchAsync(async (req:Request & {user?:any}, res) => {
+  const result = await PaymentService.userDashboardInfo(req?.user?.id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "User Dashbaord Info Fetched Successfuly.",
+    data: result,
+  });
+});
 export const PaymentController = {
   makeOrder,
   successOrder,
   PaymentFailed,
   myPayments,
+  adminDashboardInfo,
+  userDashboardInfo,
 };
