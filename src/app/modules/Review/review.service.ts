@@ -6,8 +6,8 @@ import { ReviewSearchableFields } from "../../constants/searchableFieldConstant"
 import { paginationHelper } from "../../../helpers/paginationHelper";
 
 const addReview = async (data: Review, userId: string) => {
-    console.log("data", data);
-    console.log("data", userId);
+  console.log("data", data);
+  console.log("data", userId);
 
   const isCategoryExist = await prisma.category.findFirst({
     where: {
@@ -36,7 +36,6 @@ const addReview = async (data: Review, userId: string) => {
   return result;
 };
 
-
 const getAllReview = async (params: any, options: any) => {
   const { limit, skip } = paginationHelper.calculatePagination(options);
 
@@ -55,33 +54,43 @@ const getAllReview = async (params: any, options: any) => {
   }
 
   // Published / Unpublished
+  // if (options.isPublished === "false") {
+  //   andConditions.push({ isPublished: false });
+  // } else {
+  //   andConditions.push({ isPublished: true });
+  // }
+
+  // // Remove isPublished condition if empty string
+  // if (options.isPublished === "") {
+  //   andConditions = andConditions.filter(
+  //     (condition) => !("isPublished" in condition)
+  //   );
+  // }
   if (options.isPublished === "false") {
     andConditions.push({ isPublished: false });
-  } else {
+  } else if (options.isPublished === "true") {
     andConditions.push({ isPublished: true });
-  }
-
-  // Remove isPublished condition if empty string
-  if (options.isPublished === "") {
+  }else{
     andConditions = andConditions.filter(
       (condition) => !("isPublished" in condition)
     );
   }
+
+  // Remove isPublished condition if empty string
+
 
   // Premium / Free
   if (options.isPaid === "true") {
     andConditions.push({ isPremium: true });
   } else if (options.isPaid === "false") {
     andConditions.push({ isPremium: false });
-  }
-
-  // Remove isPremium condition if empty string
-  if (options.isPaid === "") {
+  }else{
     andConditions = andConditions.filter(
       (condition) => !("isPremium" in condition)
     );
   }
 
+  
   // Category filter
   if (options.categoryId?.trim()) {
     andConditions.push({ categoryId: options.categoryId });
@@ -224,13 +233,13 @@ const getSingleReview = async (id: string) => {
   const totalDownVotes = await prisma.vote.count({
     where: {
       reviewId: id,
-      type:"DOWN"
+      type: "DOWN",
     },
   });
   const totalUpVotes = await prisma.vote.count({
     where: {
       reviewId: id,
-      type:"UP"
+      type: "UP",
     },
   });
 
@@ -239,7 +248,7 @@ const getSingleReview = async (id: string) => {
     paymentCount,
     totalComments,
     totalUpVotes,
-    totalDownVotes
+    totalDownVotes,
   };
 };
 

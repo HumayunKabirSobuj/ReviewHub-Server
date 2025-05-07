@@ -65,7 +65,7 @@ const makeOrder = async (res: Response, userId: string, reviewId: string) => {
   // console.log(data);
 
   const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
- 
+
   try {
     const apiResponse: any = await sslcz.init(data); // Use await here
     // Redirect the user to payment gateway
@@ -80,7 +80,6 @@ const makeOrder = async (res: Response, userId: string, reviewId: string) => {
 };
 
 const successOrder = async (userId: string, reviewId: string) => {
-  
   const isReviewExist = await prisma.review.findFirst({
     where: {
       id: reviewId,
@@ -119,8 +118,8 @@ const myPayments = async (userId: string) => {
   // console.log("myPayments...", id);
 
   const result = await prisma.payment.findMany({
-    where:{
-      userId
+    where: {
+      userId,
     },
     include: {
       review: {
@@ -131,11 +130,90 @@ const myPayments = async (userId: string) => {
         },
       },
     },
-  })
-  return result
+  });
+  return result;
 };
+
+const adminDashboardInfo = async () => {
+  // Aggregate total amount
+  const totalAmount = await prisma.payment.aggregate({
+    _sum: {
+      amount: true,
+    },
+  });
+
+  // Count total number of payments
+  const totalPayNumber = await prisma.payment.count();
+
+  const totalUser = await prisma.user.count();
+  const totalPublishedReviews = await prisma.review.count({
+    where: {
+      isPublished: true,
+    },
+  });
+  const totalUnpublishedReviews = await prisma.review.count({
+    where: {
+      isPublished: false,
+    },
+  });
+
+  const totalAmountPrice = totalAmount._sum.amount ?? 0;
+
+  return {
+    totalPaymentAmount: totalAmountPrice,
+    totalPayments: totalPayNumber,
+    totalUser,
+    totalPublishedReviews,
+    totalUnpublishedReviews,
+  };
+};
+const userDashboardInfo = async (userId: string) => {
+  // Aggregate total amount
+
+  console.log(userId);
+  const totalAmount = await prisma.payment.aggregate({
+    where: {
+      userId,
+    },
+    _sum: {
+      amount: true,
+    },
+  });
+
+  // Count total number of payments
+  const totalPayNumber = await prisma.payment.count({
+    where: {
+      userId,
+    },
+  });
+
+  const totalPublishedReviews = await prisma.review.count({
+    where: {
+      userId,
+      isPublished: true,
+    },
+  });
+  const totalUnpublishedReviews = await prisma.review.count({
+    where: {
+      userId,
+      isPublished: false,
+    },
+  });
+
+  const totalAmountPrice = totalAmount._sum.amount ?? 0;
+
+  return {
+    totalPaymentAmount: totalAmountPrice,
+    totalPayments: totalPayNumber,
+    totalPublishedReviews,
+    totalUnpublishedReviews,
+  };
+};
+
 export const PaymentService = {
   makeOrder,
   successOrder,
   myPayments,
+  adminDashboardInfo,
+  userDashboardInfo
 };

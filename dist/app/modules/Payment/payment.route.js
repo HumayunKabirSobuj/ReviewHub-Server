@@ -10,6 +10,8 @@ const client_1 = require("@prisma/client");
 const payment_controller_1 = require("./payment.controller");
 const router = express_1.default.Router();
 router.get("/my-payments", (0, RoleValidation_1.default)(client_1.UserRole.USER), payment_controller_1.PaymentController.myPayments);
+router.get("/admin-dashboard-info", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN), payment_controller_1.PaymentController.adminDashboardInfo);
+router.get("/user-dashboard-info", (0, RoleValidation_1.default)(client_1.UserRole.USER), payment_controller_1.PaymentController.userDashboardInfo);
 router.post("/make-order/:id", (0, RoleValidation_1.default)(client_1.UserRole.USER), payment_controller_1.PaymentController.makeOrder);
 router.post("/success", payment_controller_1.PaymentController.successOrder);
 router.post("/failed", payment_controller_1.PaymentController.PaymentFailed);

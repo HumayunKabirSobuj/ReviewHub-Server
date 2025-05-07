@@ -9,15 +9,23 @@ router.get(
   RoleValidation(UserRole.USER),
   PaymentController.myPayments
 );
+
+router.get(
+  "/admin-dashboard-info",
+  RoleValidation(UserRole.ADMIN),
+  PaymentController.adminDashboardInfo
+);
+router.get(
+  "/user-dashboard-info",
+  RoleValidation(UserRole.USER),
+  PaymentController.userDashboardInfo
+);
 router.post(
   "/make-order/:id",
   RoleValidation(UserRole.USER),
   PaymentController.makeOrder
 );
 router.post("/success", PaymentController.successOrder);
-router.post(
-  "/failed",
-  PaymentController.PaymentFailed
-);
+router.post("/failed", PaymentController.PaymentFailed);
 
 export const PaymentRoutes = router;

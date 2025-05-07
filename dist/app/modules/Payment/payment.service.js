@@ -114,7 +114,7 @@ const myPayments = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log("myPayments...", id);
     const result = yield prisma_1.default.payment.findMany({
         where: {
-            userId
+            userId,
         },
         include: {
             review: {
@@ -128,8 +128,78 @@ const myPayments = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     });
     return result;
 });
+const adminDashboardInfo = () => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    // Aggregate total amount
+    const totalAmount = yield prisma_1.default.payment.aggregate({
+        _sum: {
+            amount: true,
+        },
+    });
+    // Count total number of payments
+    const totalPayNumber = yield prisma_1.default.payment.count();
+    const totalUser = yield prisma_1.default.user.count();
+    const totalPublishedReviews = yield prisma_1.default.review.count({
+        where: {
+            isPublished: true,
+        },
+    });
+    const totalUnpublishedReviews = yield prisma_1.default.review.count({
+        where: {
+            isPublished: false,
+        },
+    });
+    const totalAmountPrice = (_a = totalAmount._sum.amount) !== null && _a !== void 0 ? _a : 0;
+    return {
+        totalPaymentAmount: totalAmountPrice,
+        totalPayments: totalPayNumber,
+        totalUser,
+        totalPublishedReviews,
+        totalUnpublishedReviews,
+    };
+});
+const userDashboardInfo = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    // Aggregate total amount
+    var _a;
+    console.log(userId);
+    const totalAmount = yield prisma_1.default.payment.aggregate({
+        where: {
+            userId,
+        },
+        _sum: {
+            amount: true,
+        },
+    });
+    // Count total number of payments
+    const totalPayNumber = yield prisma_1.default.payment.count({
+        where: {
+            userId,
+        },
+    });
+    const totalPublishedReviews = yield prisma_1.default.review.count({
+        where: {
+            userId,
+            isPublished: true,
+        },
+    });
+    const totalUnpublishedReviews = yield prisma_1.default.review.count({
+        where: {
+            userId,
+            isPublished: false,
+        },
+    });
+    const totalAmountPrice = (_a = totalAmount._sum.amount) !== null && _a !== void 0 ? _a : 0;
+    return {
+        totalPaymentAmount: totalAmountPrice,
+        totalPayments: totalPayNumber,
+        totalPublishedReviews,
+        totalUnpublishedReviews,
+    };
+});
 exports.PaymentService = {
     makeOrder,
     successOrder,
     myPayments,
+    adminDashboardInfo,
+    userDashboardInfo
 };

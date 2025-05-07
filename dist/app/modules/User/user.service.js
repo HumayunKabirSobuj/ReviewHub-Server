@@ -37,10 +37,10 @@ const getAllUsers = (params, options) => __awaiter(void 0, void 0, void 0, funct
     if (options.role === "USER") {
         andConditions.push({ role: client_1.UserRole.USER });
     }
-    else {
+    else if (options.role === "ADMIN") {
         andConditions.push({ role: client_1.UserRole.ADMIN });
     }
-    if (options.role === "all") {
+    else {
         andConditions = andConditions.filter((condition) => !("role" in condition));
     }
     if (options.status === "ACTIVE") {
@@ -49,7 +49,7 @@ const getAllUsers = (params, options) => __awaiter(void 0, void 0, void 0, funct
     else if (options.status === "BLOCKED") {
         andConditions.push({ status: client_1.UserStatus.BLOCKED });
     }
-    if (options.status === "all") {
+    else {
         andConditions = andConditions.filter((condition) => !("status" in condition));
     }
     const whereConditions = { AND: andConditions };
