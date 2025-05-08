@@ -32,12 +32,7 @@ const createUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const hashPassword = yield bcrypt_1.default.hash(payload.password, 12);
     // console.log(hashPassword);
-    const userData = {
-        name: payload.name,
-        email: payload.email,
-        password: hashPassword,
-    };
-    //   console.log(userData);
+    const userData = Object.assign(Object.assign({}, payload), { password: hashPassword });
     const result = yield prisma_1.default.user.create({
         data: Object.assign({}, userData),
         select: {
