@@ -5,7 +5,16 @@ import router from "./app/routes";
 import status from "http-status";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 const app: Application = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://review-portal-ph-b9.vercel.app",
+      "http://localhost:3000",
+      "https://review-portal-b4-a9.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
 // parser
 app.use(express.json());
@@ -14,8 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", router);
 
 app.use(globalErrorHandler);
-
-
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Review-Hub Server is running");

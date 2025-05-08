@@ -24,12 +24,9 @@ const createUser = async (payload: User) => {
   // console.log(hashPassword);
 
   const userData = {
-    name: payload.name,
-    email: payload.email,
+    ...payload,
     password: hashPassword,
   };
-
-  //   console.log(userData);
 
   const result = await prisma.user.create({
     data: {
@@ -70,9 +67,9 @@ const loginUser = async (payload: { email: string; password: string }) => {
 
   const accessToken = jwtHelpers.generateToken(
     {
-      id:userData.id,
-      name:userData.name,
-      profileUrl:userData.profileUrl,
+      id: userData.id,
+      name: userData.name,
+      profileUrl: userData.profileUrl,
       email: userData.email,
       role: userData.role,
     },
