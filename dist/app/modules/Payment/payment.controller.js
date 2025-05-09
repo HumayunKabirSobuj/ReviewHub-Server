@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentController = void 0;
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const payment_service_1 = require("./payment.service");
-const config_1 = __importDefault(require("../../../config"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
 const makeOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -28,11 +27,11 @@ const successOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     console.log(req.query);
     const { userId, reviewId } = req.query;
     yield payment_service_1.PaymentService.successOrder(userId, reviewId);
-    res.redirect(`${config_1.default.client_link}/payment-successful/${reviewId}`);
+    res.redirect(`https://review-portal-b4-02.vercel.app/payment-successful/${reviewId}`);
 }));
 const PaymentFailed = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { reviewId } = req.query;
-    res.redirect(`${config_1.default.client_link}/payment-failed/${reviewId}`);
+    res.redirect(`https://review-portal-b4-02.vercel.app/payment-failed/${reviewId}`);
 }));
 const myPayments = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield payment_service_1.PaymentService.myPayments(req.user.id);

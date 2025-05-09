@@ -7,11 +7,7 @@ import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 const app: Application = express();
 app.use(
   cors({
-    origin: [
-      "https://review-portal-ph-b9.vercel.app",
-      "http://localhost:3000",
-      "https://review-portal-b4-a9.vercel.app",
-    ],
+    origin: "https://review-portal-b4-02.vercel.app",
     credentials: true,
   })
 );
