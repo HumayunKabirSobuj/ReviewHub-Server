@@ -15,12 +15,16 @@ const successOrder = catchAsync(async (req: Request & { user?: any }, res) => {
   console.log(req.query);
   const { userId, reviewId } = req.query;
   await PaymentService.successOrder(userId as string, reviewId as string);
-  res.redirect(`${config.client_link}/payment-successful/${reviewId}`);
+  res.redirect(
+    `https://review-portal-b4-02.vercel.app/payment-successful/${reviewId}`
+  );
 });
 
 const PaymentFailed = catchAsync(async (req, res) => {
   const { reviewId } = req.query;
-  res.redirect(`${config.client_link}/payment-failed/${reviewId}`);
+  res.redirect(
+    `https://review-portal-b4-02.vercel.app/payment-failed/${reviewId}`
+  );
 });
 
 const myPayments = catchAsync(async (req: Request & { user?: any }, res) => {
@@ -41,15 +45,17 @@ const adminDashboardInfo = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const userDashboardInfo = catchAsync(async (req:Request & {user?:any}, res) => {
-  const result = await PaymentService.userDashboardInfo(req?.user?.id);
-  sendResponse(res, {
-    statusCode: status.OK,
-    success: true,
-    message: "User Dashbaord Info Fetched Successfuly.",
-    data: result,
-  });
-});
+const userDashboardInfo = catchAsync(
+  async (req: Request & { user?: any }, res) => {
+    const result = await PaymentService.userDashboardInfo(req?.user?.id);
+    sendResponse(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "User Dashbaord Info Fetched Successfuly.",
+      data: result,
+    });
+  }
+);
 export const PaymentController = {
   makeOrder,
   successOrder,

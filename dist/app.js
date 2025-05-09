@@ -10,11 +10,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
-    origin: [
-        "https://review-portal-ph-b9.vercel.app",
-        "http://localhost:3000",
-        "https://review-portal-b4-a9.vercel.app",
-    ],
+    origin: "https://review-portal-b4-02.vercel.app",
     credentials: true,
 }));
 // parser

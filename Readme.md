@@ -121,7 +121,9 @@ https://reviewhub-backend-one.vercel.app
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review?searchTerm=Humayun Kabir&page=3&limit=1&categoryId=5473c071-1193-45e4-aa4a-e2eebb38c40d&isPaid=true&isPublished=true`**\
 
 #### searchTerm for searching & page, limit for pagination
+
 #### isPaid value example =true, false, or ""
+
 #### isPublished value example =true, false, or ""
 
 ### 8\. **Get Single Review ( Review Details ) **
@@ -212,8 +214,8 @@ https://reviewhub-backend-one.vercel.app
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/vote/my-votes`**
 
-
 ## 🔴🔴 **Payment**
+
 ### 18\. **Make Order**
 
 #### Authorization Token Need ( Only user can do this )
@@ -221,11 +223,52 @@ https://reviewhub-backend-one.vercel.app
 #### A user can buy on a review only once. Multiple payment by the same user on the same review are not allowed.
 
 #### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/payment/make-order/04787a62-9764-4ed2-91df-c5767808523a`**
-#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/payment/make-order/reviewId`**
 
+#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/payment/make-order/reviewId`**
 
 ### 19\. **MySelf Payments**
 
 #### Authorization Token Need ( Only user can do this )
 
 #### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/payment/my-payments`**
+
+## Installation 🛠️
+
+1. Clone repository
+
+```
+Clone Repository : https://github.com/HumayunKabirSobuj/ReviewHub-Server.git
+```
+
+2. cd ReviewHub-Server
+
+```
+npm install
+```
+
+3. Create .env file
+
+```
+DATABASE_URL=<provide your Supabase api link here>
+DIRECT_URL=<provide your supabase direct url link here>
+VITE_API_LINk : <provide your api link here>
+ENABLE_PRISMA_CACHING=false
+PORT=Your port number
+JWT_SECRET=<provide your JWT_SECRET here>
+EXPIRES_IN=<provide your JWT_EXPIRES_IN time here>
+
+REFRESH_TOKEN_SECRET=<provide yourREFRESH_TOKEN_SECRET here>
+REFRESH_TOKEN_EXPIRES_IN=<provide your REFRESH_TOKEN_EXPIRES_IN time here>
+JWT_REFRESH_SECRET=<provide your JWT_REFRESH_SECRET link here>
+JWT_REFRESH_EXPIRES_IN=<provide your JWT_REFRESH_EXPIRES_IN link here>
+
+BACKEND_API_LINK=<Your Backend Live Api Link Here>
+CLIENT_LINK=<Your Frontend Live Link Here>
+
+```
+
+4. Run Project
+
+```
+npm run dev
+```
