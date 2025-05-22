@@ -3,7 +3,7 @@
 Live:
 
 ```
-https://reviewhub-backend-one.vercel.app
+https://review-portal-b4-02-server.vercel.app
 ```
 
 ---
@@ -28,7 +28,7 @@ https://reviewhub-backend-one.vercel.app
 
 ---
 
-#### ✅ **1\.** **`POST https://reviewhub-backend-one.vercel.app/api/auth/create-user`**
+#### ✅ **1\.** **`POST /api/auth/create-user`**
 
 #### 📥 Request Body
 
@@ -46,7 +46,7 @@ https://reviewhub-backend-one.vercel.app
 
 ---
 
-#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/auth/login`**
+#### ✅ **.** **`POST /api/auth/login`**
 
 #### 📥 Request Body
 
@@ -63,7 +63,7 @@ https://reviewhub-backend-one.vercel.app
 
 ### 3\. **Create Category**
 
-#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/category/create-category`**
+#### ✅ **.** **`POST /api/category/create-category`**
 
 #### 📥 Request Body
 
@@ -79,17 +79,17 @@ https://reviewhub-backend-one.vercel.app
 
 ### 4\. **Get All Category**
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/category`**
+#### ✅ **.** **`GET /api/category`**
 
 ### 5\. **Get Single Category**
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/category/8b00f961-4a54-4419-bd37-bf149d163e34`**
+#### ✅ **.** **`GET /api/category/8b00f961-4a54-4419-bd37-bf149d163e34`**
 
 ## 🔴🔴 Review
 
 ### 6\. **Add Review**
 
-#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/review/create-review`**
+#### ✅ **.** **`POST /api/review/create-review`**
 
 #### 📥 Request Body
 
@@ -118,7 +118,7 @@ https://reviewhub-backend-one.vercel.app
 
 ### 7\. **Get All Review**
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review?searchTerm=Humayun Kabir&page=3&limit=1&categoryId=5473c071-1193-45e4-aa4a-e2eebb38c40d&isPaid=true&isPublished=true`**\
+#### ✅ **.** **`GET /api/review?searchTerm=Humayun Kabir&page=3&limit=1&categoryId=5473c071-1193-45e4-aa4a-e2eebb38c40d&isPaid=true&isPublished=true`**\
 
 #### searchTerm for searching & page, limit for pagination
 
@@ -130,37 +130,37 @@ https://reviewhub-backend-one.vercel.app
 
 #### Authorization Token Need ( Anyone can view Review details)
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/72823e1a-d349-4b96-88a8-753fb5c4dd9a`**
+#### ✅ **.** **`GET /api/review/72823e1a-d349-4b96-88a8-753fb5c4dd9a`**
 
 ### 9\. **Myself all reviews**
 
 #### Authorization Token Need
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/my-reviews`**
+#### ✅ **.** **`GET /api/review/my-reviews`**
 
 ### 10\. **Pending Reviews**
 
 #### Authorization Token Need ( Only admin can show)
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/review/pending-reviews`**
+#### ✅ **.** **`GET /api/review/pending-reviews`**
 
 ### 11\. **Make Review Active**
 
 #### Authorization Token Need ( Only admin can do this)
 
-#### ✅ **.** **`PATCH https://reviewhub-backend-one.vercel.app/api/review/make-review-published/de71f985-3a61-4a28-8d05-ad258d656bff`**
+#### ✅ **.** **`PATCH /api/review/make-review-published/de71f985-3a61-4a28-8d05-ad258d656bff`**
 
 ### 12\. **Update Review**
 
 #### Authorization Token Need ( Only user can do this for this own review)
 
-#### ✅ **.** **`PATCH https://reviewhub-backend-one.vercel.app/api/review/update-review/e0917ce7-196c-4c93-aaa6-b343d3b6c41e`**
+#### ✅ **.** **`PATCH /api/review/update-review/e0917ce7-196c-4c93-aaa6-b343d3b6c41e`**
 
 ### 13\. **Delete Review**
 
 #### Authorization Token Need ( user can do this for this own review, and admin can delete any review)
 
-#### ✅ **.** **`DELETE https://reviewhub-backend-one.vercel.app/api/review/delete-review/e0917ce7-196c-4c93-aaa6-b343d3b6c41e`**
+#### ✅ **.** **`DELETE /api/review/delete-review/e0917ce7-196c-4c93-aaa6-b343d3b6c41e`**
 
 ## 🔴🔴 **Comment**
 
@@ -168,7 +168,7 @@ https://reviewhub-backend-one.vercel.app
 
 #### Authorization Token Need
 
-#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/comment/create-comment`**
+#### ✅ **.** **`POST /api/comment/create-comment`**
 
 #### 📥 Request Body
 
@@ -184,7 +184,7 @@ https://reviewhub-backend-one.vercel.app
 
 #### Authorization Token Need
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/comment/my-comments`**
+#### ✅ **.** **`GET /api/comment/my-comments`**
 
 ## 🔴🔴 **Vote**
 
@@ -194,7 +194,7 @@ https://reviewhub-backend-one.vercel.app
 
 #### A user can vote on a review only once. Multiple votes by the same user on the same review are not allowed.
 
-#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/vote/create-vote`**
+#### ✅ **.** **`POST /api/vote/create-vote`**
 
 #### 📥 Request Body
 
@@ -212,7 +212,7 @@ https://reviewhub-backend-one.vercel.app
 
 #### Authorization Token Need
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/vote/my-votes`**
+#### ✅ **.** **`GET /api/vote/my-votes`**
 
 ## 🔴🔴 **Payment**
 
@@ -222,22 +222,22 @@ https://reviewhub-backend-one.vercel.app
 
 #### A user can buy on a review only once. Multiple payment by the same user on the same review are not allowed.
 
-#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/payment/make-order/04787a62-9764-4ed2-91df-c5767808523a`**
+#### ✅ **.** **`POST /api/payment/make-order/04787a62-9764-4ed2-91df-c5767808523a`**
 
-#### ✅ **.** **`POST https://reviewhub-backend-one.vercel.app/api/payment/make-order/reviewId`**
+#### ✅ **.** **`POST /api/payment/make-order/reviewId`**
 
 ### 19\. **MySelf Payments**
 
 #### Authorization Token Need ( Only user can do this )
 
-#### ✅ **.** **`GET https://reviewhub-backend-one.vercel.app/api/payment/my-payments`**
+#### ✅ **.** **`GET /api/payment/my-payments`**
 
 ## Installation 🛠️
 
 1. Clone repository
 
 ```
-Clone Repository : https://github.com/HumayunKabirSobuj/ReviewHub-Server.git
+Clone Repository : https://github.com/HumayunKabirSobuj/ReviewPortal-Server.git
 ```
 
 2. cd ReviewHub-Server

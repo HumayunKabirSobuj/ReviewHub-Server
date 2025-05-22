@@ -22,6 +22,7 @@ model User {
   payments   Payment[]
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
+  Discount   Discount[]
 }
 
 model Category {
@@ -36,7 +37,7 @@ model Review {
   description    String
   rating         Int
   purchaseSource String?
-  imageUrls        String[]   // optional image array
+  imageUrls      String[] // optional image array
   excerp         String
   isPremium      Boolean   @default(false)
   price          Float? // only for premium reviews
@@ -50,6 +51,7 @@ model Review {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   Payment        Payment[]
+  Discount       Discount?
 }
 
 model Comment {
@@ -87,6 +89,18 @@ model Payment {
   amount    Float
   status    PaymentStatus
   createdAt DateTime      @default(now())
+}
+
+model Discount {
+  id        String   @id @default(uuid())
+  percent   Float // e.g. 20 means 20%
+  newPrice  Float? // Optional, only if needed
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviewId  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum PaymentStatus {

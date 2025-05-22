@@ -6,6 +6,7 @@ import { CommentRoutes } from "../modules/Comment/comment.route";
 import { VoteRoutes } from "../modules/Vote/vote.route";
 import { PaymentRoutes } from "../modules/Payment/payment.route";
 import { UserDataRoutes } from "../modules/User/user.route";
+import { DiscountRoutes } from "../modules/Discount/discount.route";
 
 const router = express.Router();
 
@@ -37,6 +38,10 @@ const moduleRoutes = [
   {
     path: "/users",
     route: UserDataRoutes,
+  },
+  {
+    path: "/discount",
+    route: DiscountRoutes,
   },
 ];
 
