@@ -1,4 +1,3 @@
-import { Discount } from "@prisma/client";
 import prisma from "../../../shared/prisma";
 import AppError from "../../Errors/AppError";
 import status from "http-status";
@@ -64,6 +63,9 @@ const updateDiscount = async (id: string, data: any) => {
   });
   return result;
 };
+
+
+
 
 export const DiscountServices = {
   getAllDiscount,
