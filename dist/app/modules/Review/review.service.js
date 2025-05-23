@@ -396,11 +396,12 @@ const discountReview = (userId, data) => __awaiter(void 0, void 0, void 0, funct
                 reviewId: data.reviewId,
             },
         });
+        // console.log(isDiscountAlreadyExist);
         if (isDiscountAlreadyExist) {
             throw new AppError_1.default(500, "Discount Already Exist");
         }
         const disCountData = Object.assign(Object.assign({}, data), { newPrice: isReviewFind.price -
-                (isReviewFind.price * data.percent) / 100 });
+                (isReviewFind.price * data.percent) / 100, userId });
         const result = yield tx.discount.create({
             data: disCountData,
         });

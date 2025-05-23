@@ -15,6 +15,11 @@ router.get(
   RoleValidation(UserRole.USER),
   DiscountController.myDiscounts
 );
+router.patch(
+  "/update-discount/:id",
+  RoleValidation(UserRole.USER),
+  DiscountController.updateDiscount
+);
 
 
 export const DiscountRoutes = router;

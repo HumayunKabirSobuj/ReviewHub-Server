@@ -11,6 +11,7 @@ const comment_route_1 = require("../modules/Comment/comment.route");
 const vote_route_1 = require("../modules/Vote/vote.route");
 const payment_route_1 = require("../modules/Payment/payment.route");
 const user_route_1 = require("../modules/User/user.route");
+const discount_route_1 = require("../modules/Discount/discount.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
@@ -40,6 +41,10 @@ const moduleRoutes = [
     {
         path: "/users",
         route: user_route_1.UserDataRoutes,
+    },
+    {
+        path: "/discount",
+        route: discount_route_1.DiscountRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

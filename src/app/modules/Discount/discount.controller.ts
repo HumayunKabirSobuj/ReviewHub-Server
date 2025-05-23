@@ -26,8 +26,21 @@ const myDiscounts = catchAsync(async (req: Request & { user?: any }, res) => {
     data: result,
   });
 });
+const updateDiscount = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await DiscountServices.updateDiscount(id, req.body);
+
+  //   console.log(req.user);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Discount Updated Successfully..",
+    data: result,
+  });
+});
 
 export const DiscountController = {
   getAllDiscount,
-  myDiscounts
+  myDiscounts,
+  updateDiscount,
 };
