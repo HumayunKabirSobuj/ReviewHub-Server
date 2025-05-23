@@ -38,9 +38,22 @@ const updateDiscount = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const deleteDiscount = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await DiscountServices.deleteDiscount(id);
+
+  //   console.log(req.user);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Discount deleted Successfully..",
+    data: result,
+  });
+});
 
 export const DiscountController = {
   getAllDiscount,
   myDiscounts,
   updateDiscount,
+  deleteDiscount
 };

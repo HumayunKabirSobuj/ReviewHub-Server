@@ -20,6 +20,11 @@ router.patch(
   RoleValidation(UserRole.USER),
   DiscountController.updateDiscount
 );
+router.delete(
+  "/delete-discount/:id",
+  RoleValidation(UserRole.USER),
+  DiscountController.deleteDiscount
+);
 
 
 export const DiscountRoutes = router;

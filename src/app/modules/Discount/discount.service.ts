@@ -63,12 +63,28 @@ const updateDiscount = async (id: string, data: any) => {
   });
   return result;
 };
+const deleteDiscount = async (id: string) => {
+  const isDiscountExist = await prisma.discount.findUnique({
+    where: {
+      id,
+    },
+  });
+  // console.log(isDiscountExist);
+  if (!isDiscountExist) {
+    throw new AppError(status.NOT_FOUND, "Discount not found..");
+  }
 
-
-
+  const result = await prisma.discount.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
 
 export const DiscountServices = {
   getAllDiscount,
   myDiscounts,
   updateDiscount,
+  deleteDiscount,
 };
