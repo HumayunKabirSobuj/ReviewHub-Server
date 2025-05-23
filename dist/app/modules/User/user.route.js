@@ -10,6 +10,7 @@ const RoleValidation_1 = __importDefault(require("../../middlewares/RoleValidati
 const user_controller_1 = require("./user.controller");
 const router = express_1.default.Router();
 router.get("/all-users", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN), user_controller_1.UserDataController.getAllUsers);
+router.get("/my-profile-info", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN, client_1.UserRole.USER), user_controller_1.UserDataController.myProfileInfo);
 router.patch("/make-admin/:id", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN), user_controller_1.UserDataController.makeUserToAdmin);
 router.patch("/make-user/:id", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN), user_controller_1.UserDataController.makeAdminToUser);
 router.patch("/block-user/:id", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN), user_controller_1.UserDataController.blockUser);

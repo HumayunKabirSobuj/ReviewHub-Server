@@ -68,8 +68,26 @@ const updateDiscount = (id, data) => __awaiter(void 0, void 0, void 0, function*
     });
     return result;
 });
+const deleteDiscount = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isDiscountExist = yield prisma_1.default.discount.findUnique({
+        where: {
+            id,
+        },
+    });
+    // console.log(isDiscountExist);
+    if (!isDiscountExist) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Discount not found..");
+    }
+    const result = yield prisma_1.default.discount.delete({
+        where: {
+            id,
+        },
+    });
+    return result;
+});
 exports.DiscountServices = {
     getAllDiscount,
     myDiscounts,
     updateDiscount,
+    deleteDiscount,
 };

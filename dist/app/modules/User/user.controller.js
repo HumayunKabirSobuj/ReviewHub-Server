@@ -41,6 +41,16 @@ const getAllUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: result,
     });
 }));
+const myProfileInfo = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_service_1.UserDataServices.myProfileInfo(req.user.id);
+    //   console.log(req.user);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "My Profile Info Fetched Successfuly.",
+        data: result,
+    });
+}));
 const makeUserToAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield user_service_1.UserDataServices.makeUserToAdmin(id);
@@ -102,5 +112,6 @@ exports.UserDataController = {
     makeAdminToUser,
     blockUser,
     makeActive,
-    deleteUser
+    deleteUser,
+    myProfileInfo
 };

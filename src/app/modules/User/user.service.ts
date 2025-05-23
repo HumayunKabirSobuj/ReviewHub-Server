@@ -40,7 +40,6 @@ const getAllUsers = async (params: any, options: any) => {
     );
   }
 
-
   const whereConditions = { AND: andConditions };
   // console.log("get.....");
   const result = prisma.user.findMany({
@@ -56,6 +55,24 @@ const getAllUsers = async (params: any, options: any) => {
       profileUrl: true,
     },
   });
+  return result;
+};
+
+const myProfileInfo = async (id: string) => {
+  const result = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      reviews: true,
+      comments: true,
+      votes: true,
+      payments: true,
+      Discount: true,
+    },
+  });
+
+
   return result;
 };
 
@@ -196,4 +213,5 @@ export const UserDataServices = {
   blockUser,
   makeActive,
   deleteUser,
+  myProfileInfo,
 };

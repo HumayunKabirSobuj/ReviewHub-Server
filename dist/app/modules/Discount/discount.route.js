@@ -12,4 +12,5 @@ const router = express_1.default.Router();
 router.get("/get-all-discount", (0, RoleValidation_1.default)(client_1.UserRole.ADMIN), discount_controller_1.DiscountController.getAllDiscount);
 router.get("/my-discounts", (0, RoleValidation_1.default)(client_1.UserRole.USER), discount_controller_1.DiscountController.myDiscounts);
 router.patch("/update-discount/:id", (0, RoleValidation_1.default)(client_1.UserRole.USER), discount_controller_1.DiscountController.updateDiscount);
+router.delete("/delete-discount/:id", (0, RoleValidation_1.default)(client_1.UserRole.USER), discount_controller_1.DiscountController.deleteDiscount);
 exports.DiscountRoutes = router;

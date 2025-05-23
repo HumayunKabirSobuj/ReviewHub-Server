@@ -10,6 +10,11 @@ router.get(
   RoleValidation(UserRole.ADMIN),
   UserDataController.getAllUsers
 );
+router.get(
+  "/my-profile-info",
+  RoleValidation(UserRole.ADMIN, UserRole.USER),
+  UserDataController.myProfileInfo
+);
 router.patch(
   "/make-admin/:id",
   RoleValidation(UserRole.ADMIN),

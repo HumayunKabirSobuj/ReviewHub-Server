@@ -69,6 +69,21 @@ const getAllUsers = (params, options) => __awaiter(void 0, void 0, void 0, funct
     });
     return result;
 });
+const myProfileInfo = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.user.findUnique({
+        where: {
+            id,
+        },
+        include: {
+            reviews: true,
+            comments: true,
+            votes: true,
+            payments: true,
+            Discount: true,
+        },
+    });
+    return result;
+});
 const makeUserToAdmin = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const isUserExist = yield prisma_1.default.user.findUnique({
         where: {
@@ -200,4 +215,5 @@ exports.UserDataServices = {
     blockUser,
     makeActive,
     deleteUser,
+    myProfileInfo,
 };

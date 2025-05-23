@@ -2,6 +2,7 @@ import status from "http-status";
 import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import { UserDataServices } from "./user.service";
+import { Request } from "express";
 
 const getAllUsers = catchAsync(async (req, res) => {
   // console.log(req.query);
@@ -14,6 +15,18 @@ const getAllUsers = catchAsync(async (req, res) => {
     statusCode: status.OK,
     success: true,
     message: "All User Fetched Successfuly.",
+    data: result,
+  });
+});
+const myProfileInfo = catchAsync(async (req: Request & { user?: any }, res) => {
+
+  const result = await UserDataServices.myProfileInfo(req.user.id);
+
+  //   console.log(req.user);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "My Profile Info Fetched Successfuly.",
     data: result,
   });
 });
@@ -89,5 +102,6 @@ export const UserDataController = {
   makeAdminToUser,
   blockUser,
   makeActive,
-  deleteUser
+  deleteUser,
+  myProfileInfo
 };
